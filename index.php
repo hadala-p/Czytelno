@@ -11,42 +11,11 @@
     <link rel="stylesheet" href="fontello/css/fontello.css" type="text/css" />
   </head>
   <body>
-  <header>
-  <div class="row">
-    <div class="logo col-sm-12 col-md-6">
-      <div class="bookStoreLogo"><a href="index.php"><img src="img/book_logo.png" width="50" height="50" alt="bookStoreLogo"></a></div>
-      <div class="bookStoreName"><a href="index.php">BookStore</a></div>  
-    </div>
-    <div class="logoo col-sm-12 col-md-6">
-      <div class="cytat col-sm-9">
-        <div id="quote1">Czytaj...</div>
-        <div id="quote2">Odkrywaj...</div>
-        <div id="quote3">Analizuj...</div>
-      </div>  
-    </div>
-  </div>
-</header>
-<nav class="topnav" id="myTopnav">
-  <ul>
-    <li class="btnn"><a href="javascript:void(0);" onclick="myFunction2()">Kategorie<i class="icon-down-open iconn"></i></a>
-      <ul id="btn-content">
-        <li><a href="#">Biografie</a></li>
-        <li><a href="#">Biznes</a></li>
-        <li><a href="#">Fantastyka</a></li>
-        <li><a href="#">Historia</a></li>
-        <li><a href="#">Komiksy</a></li>
-      </ul>
-    </li>
-    <li><a href="#">Nowości</a></li>
-    <li><a href="#">Promocje</a></li>
+    <?php 
+        include 'elements/headerMainPage.html';
+        include 'elements/navigationBar.html';
+    ?>
 
-    <li><a href="#">Outlet</a></li>
-    <li class="log-btn"><a href="#">zaloguj się</a></li>
-  </ul>
-<a href="javascript:void(0);" class="icon" onclick="myFunction()">
-<i class="icon-menu"></i>
-</a>
-</nav>
     <div class="row">
     <main class="col-md-8 col-lg-9 col-xl-10">
       <section class="recommended">
@@ -114,16 +83,7 @@
       </section>
     </main>
     </div>
-    <footer>
-        <div class="info">Social Links</div>
-            <ul>
-                <li class="social fb"><a href="https://www.facebook.com"><i class="icon-facebook"></i></a></li>
-                <li class="social gplus"><a href="https://plus.google.com"><i class="icon-gplus"></i></a></li>
-                <li class="social tw"><a href="https://twitter.com"><i class="icon-twitter"></i></a></li>
-                <li class="social yt"><a href="https://youtube.com"><i class="icon-youtube"></i></a></li>
-            </ul>
-        <div class="info">Copyright @2023 | Designed by  Grosicki Bartosz & Hadała Piotr</div>
-    </footer>
+    <?php include 'elements/footer.html';?>
     <script src="js/zegar.js"></script>
     <script src="js/funkcje.js"></script>
     <script src="js/bootstrap.min.js"></script>
