@@ -89,7 +89,9 @@
                 }
                 if($wszystko_OK==true)
                 {
-                    if($polaczenie->query("INSERT INTO users VALUES (NULL,'$nick','Jan','Nowak', '$email', '$haslo_hash')"))
+                    $firstName=$_POST['firstName'];
+                    $lastName=$_POST['lastName'];
+                    if($polaczenie->query("INSERT INTO users VALUES (NULL,'$nick','$firstName','$lastName', '$email', '$haslo_hash')"))
                     {
                         header('Location: loggin.php');
                     }
