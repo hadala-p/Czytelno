@@ -63,20 +63,23 @@ CREATE TABLE `orders` (
   `date` date NOT NULL,
   `price` double NOT NULL,
   `status` varchar(50) NOT NULL,
-  `book_id1` int(11) NOT NULL,
-  `book_id2` int(11) NOT NULL,
-  `book_id3` int(11) NOT NULL,
-  `book_id5` int(11) NOT NULL,
-  `book_id6` int(11) NOT NULL,
-  `book_id7` int(11) NOT NULL,
-  `book_id8` int(11) NOT NULL,
-  `book_id9` int(11) NOT NULL,
-  `book_id10` int(11) NOT NULL,
-  `book_id11` int(11) NOT NULL,
-  `book_id12` int(11) NOT NULL,
-  `book_id13` int(11) NOT NULL,
-  `book_id14` int(11) NOT NULL,
-  `book_id15` int(11) NOT NULL
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `order_items`
+--
+CREATE TABLE `order_items` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `book_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`),
+  FOREIGN KEY (`book_id`) REFERENCES `books`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 -- --------------------------------------------------------
@@ -123,6 +126,12 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeksy dla tabeli `users`
+--
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT dla zrzuconych tabel
 --
 
@@ -142,6 +151,12 @@ ALTER TABLE `books`
 -- AUTO_INCREMENT dla tabeli `orders`
 --
 ALTER TABLE `orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT dla tabeli `users`
+--
+ALTER TABLE `order_items`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
