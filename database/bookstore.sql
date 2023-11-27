@@ -3,9 +3,12 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 27 Lis 2023, 19:11
+<<<<<<< HEAD
+-- Czas generowania: 27 Lis 2023, 20:51
+=======
+>>>>>>> de0ae772d491eedbe2a9c6637590f3971efef0e6
 -- Wersja serwera: 10.4.27-MariaDB
--- Wersja PHP: 8.2.0
+-- Wersja PHP: 8.0.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +21,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Baza danych: `bookstore`
+-- Baza danych: `bazy_proj`
 --
 
 -- --------------------------------------------------------
@@ -62,21 +65,19 @@ CREATE TABLE `orders` (
   `user_id` int(11) NOT NULL,
   `date` date NOT NULL,
   `price` double NOT NULL,
-  `status` varchar(50) NOT NULL,
-  `book_id1` int(11) NOT NULL,
-  `book_id2` int(11) NOT NULL,
-  `book_id3` int(11) NOT NULL,
-  `book_id5` int(11) NOT NULL,
-  `book_id6` int(11) NOT NULL,
-  `book_id7` int(11) NOT NULL,
-  `book_id8` int(11) NOT NULL,
-  `book_id9` int(11) NOT NULL,
-  `book_id10` int(11) NOT NULL,
-  `book_id11` int(11) NOT NULL,
-  `book_id12` int(11) NOT NULL,
-  `book_id13` int(11) NOT NULL,
-  `book_id14` int(11) NOT NULL,
-  `book_id15` int(11) NOT NULL
+  `status` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `order_items`
+--
+
+CREATE TABLE `order_items` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `book_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 -- --------------------------------------------------------
@@ -124,6 +125,14 @@ ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeksy dla tabeli `order_items`
+--
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_order_items_books` (`book_id`),
+  ADD KEY `idx_order_items_order_id` (`order_id`);
+
+--
 -- Indeksy dla tabeli `users`
 --
 ALTER TABLE `users`
@@ -156,6 +165,17 @@ ALTER TABLE `orders`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Ograniczenia dla zrzutów tabel
+--
+
+--
+-- Ograniczenia dla tabeli `order_items`
+--
+ALTER TABLE `order_items`
+  ADD CONSTRAINT `fk_order_items_books` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`),
+  ADD CONSTRAINT `fk_order_items_orders` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
