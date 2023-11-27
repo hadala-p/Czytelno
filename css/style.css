@@ -387,6 +387,16 @@ span.psw
   text-align: center;
 }
 /* --------------------------------------------> profile.php */
+#change-passwd {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in;
+}
+
+#change-passwd.expanded
+{
+  max-height: 400px;
+}
 .profile
 {
   margin-top: 50px;
@@ -402,12 +412,6 @@ span.psw
   width: auto;
   padding: 10px 18px;
   background-color: #f44336;
-}
-#change-passwd
-{
-  display: none;
-  padding-left: 10%;
-  padding-right: 10%;
 }
 .s-psw
 {
