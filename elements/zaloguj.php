@@ -38,7 +38,7 @@
 
 					$_SESSION['zalogowany'] = true;
 					$_SESSION['id']=$wiersz['id'];
-					$_SESSION['user'] = $wiersz['nick'];
+					$_SESSION['nick'] = $wiersz['nick'];
 					
 					unset($_SESSION['blad']);
 					$rezultat->free_result();
