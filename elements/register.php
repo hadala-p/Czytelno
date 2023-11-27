@@ -91,7 +91,7 @@
                 {
                     $firstName=$_POST['firstName'];
                     $lastName=$_POST['lastName'];
-                    if($polaczenie->query("INSERT INTO users VALUES (NULL,'$nick','$firstName','$lastName', '$email', '$haslo_hash')"))
+                    if($polaczenie->query("CALL RegisterUser('$nick','$firstName','$lastName', '$email', '$haslo_hash')"))
                     {
                         header('Location: loggin.php');
                     }
