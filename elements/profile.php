@@ -19,16 +19,16 @@
     <body>
         <?php include 'header.html';?>
         <div class="profile">
-            <?php echo "<p style='text-align:center; font-size: 40px;'>Witaj ".$_SESSION['user']."!</p>";?>
+            <?php echo "<p style='text-align:center; font-size: 40px;'>Witaj ".$_SESSION['nick']."!</p>";?>
             <div class="imgcontainer">
                 <img src="../img/user_avatar.png" alt="Avatar" class="avatar">
             </div>
             <button class="s-psw" onclick="s_passwd()">Zmień hasło</button>
             <div id="change-passwd">
-            <form method="post" action="resetpsw.php">
-                <input type="password" placeholder="Wpisz obecne hasło" name="psw" id="psw" required>
-                <input type="password" placeholder="Wpisz nowe hasło" name="psw1" id="psw1" required>
-                <input type="password" placeholder="Powtórz nowe hasło" name="psw2" id="psw2" required>
+            <form method="post" action="resetPassword.php">
+                <input type="password" placeholder="Wpisz obecne hasło" name="old_password" id="old_password" required>
+                <input type="password" placeholder="Wpisz nowe hasło" name="new_password_1" id="new_password_1" required>
+                <input type="password" placeholder="Powtórz nowe hasło" name="new_password_2" id="new_password_2" required>
                 <button type="submit">Wyślij nowe hasło</button>
             </form>
             </div>
