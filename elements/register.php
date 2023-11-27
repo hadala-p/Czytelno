@@ -18,7 +18,7 @@
             $_SESSION['e_nick']="Nick może składać się tylko z liter i cyfr (bez polskich znaków)";
         }
         // checking the correctness of the entered email through the filter
-        $email=$_POST['email'];
+        $email= $_POST['email'];
         $emailB=filter_var($email,FILTER_SANITIZE_EMAIL);
 
         if((filter_var($emailB,FILTER_VALIDATE_EMAIL)==false)||($emailB!=$email))
@@ -63,26 +63,20 @@
             else
             {
                 // checking if the email exists
-                $rezultat=$polaczenie->query("SELECT id FROM users WHERE email='$email'");
-
-                if(!$rezultat)
-                throw new Exception($polaczenie->error);
-
-                $ile_takich_maili = $rezultat->num_rows;
-                if($ile_takich_maili>0)
+                $result=$polaczenie->query("SELECT DoesEmailExist('$email') As result");
+                $row = $result->fetch_assoc();
+                $doesEmailExist = $row['result'];
+                if($doesEmailExist)
                 {
                     $wszystko_OK=false;
-                    $_SESSION['e_email']="Istnieje juz konto zarejestrowane na podany email!"; 
+                    $_SESSION['e_email']="Istnieje juz konto zarejestrowane na podany email! "; 
                 }
                 // checking if the nickname exists
-                $rezultat=$polaczenie->query("SELECT id FROM users WHERE nick='$nick'");
+                $result=$polaczenie->query("SELECT DoesUserExist('$nick') As result");
+                $row = $result->fetch_assoc();
+                $doesNickExist = $row['result'];
 
-                if(!$rezultat)
-                    throw new Exception($polaczenie->error);
-
-                $ile_takich_nickow = $rezultat->num_rows;
-
-                if($ile_takich_nickow>0)
+                if($doesNickExist)
                 {
                     $wszystko_OK=false;
                     $_SESSION['e_nick']="Istnieje juz użytkownik o takiej nazwie!"; 
