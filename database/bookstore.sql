@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 27 Lis 2023, 19:06
+-- Czas generowania: 27 Lis 2023, 19:11
 -- Wersja serwera: 10.4.27-MariaDB
 -- Wersja PHP: 8.2.0
 
@@ -24,10 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `adressess`
+-- Struktura tabeli dla tabeli `adresses`
 --
 
-CREATE TABLE `adressess` (
+CREATE TABLE `adresses` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `street` varchar(30) NOT NULL,
@@ -106,9 +106,9 @@ INSERT INTO `users` (`id`, `nick`, `firstName`, `lastName`, `email`, `password`)
 --
 
 --
--- Indeksy dla tabeli `adressess`
+-- Indeksy dla tabeli `adresses`
 --
-ALTER TABLE `adressess`
+ALTER TABLE `adresses`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -134,9 +134,9 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT dla tabeli `adressess`
+-- AUTO_INCREMENT dla tabeli `adresses`
 --
-ALTER TABLE `adressess`
+ALTER TABLE `adresses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
