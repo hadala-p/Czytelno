@@ -180,8 +180,12 @@ CREATE TABLE `books` (
   `publisher` varchar(50) NOT NULL,
   `year` year(4) NOT NULL,
   `pages` int(11) NOT NULL,
-  `price` double NOT NULL
+  `price` double NOT NULL,
+  `image_name` varchar(255) NOT NULL,
+  `category` varchar(50) NOT NULL,
+  `description` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+
 
 -- --------------------------------------------------------
 
