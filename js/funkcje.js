@@ -14,8 +14,16 @@ function myFunction2() {
         x.style.display = "block";
     }
 }
-function s_passwd() {
+function passwordChangeButton() {
     var x = document.getElementById("change-passwd");
+    if (x.classList.contains("expanded")) {
+        x.classList.remove("expanded");
+    } else {
+        x.classList.add("expanded");
+    }
+}
+function addressChangeButton() {
+    var x = document.getElementById("change-address");
     if (x.classList.contains("expanded")) {
         x.classList.remove("expanded");
     } else {

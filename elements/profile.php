@@ -5,6 +5,29 @@
       header("Location:loggin.php");
       exit();
     } 
+
+
+    require_once"connect.php";
+	mysqli_report(0);
+
+    $connection = @new mysqli($host,$db_user,$db_password,$db_name);
+
+    if($connection -> connect_errno)
+    {
+        echo "Failed to connect to MySQL: " . $connection -> connect_errno;
+    }
+    else
+    {
+		$login = $_SESSION['nick'];
+        $result = @$connection->query(sprintf("CALL getAddress('%s')",
+		mysqli_real_escape_string($connection,$login)));
+
+        if($result)
+	    {
+            $row = $result->fetch_assoc();
+        }
+
+    }
  ?>
 <!doctype html>
 <html lang="pl">
@@ -23,7 +46,7 @@
             <div class="imgcontainer">
                 <img src="../img/user_avatar.png" alt="Avatar" class="avatar">
             </div>
-            <button class="s-psw" onclick="s_passwd()">Zmień hasło</button>
+            <button class="s-psw" onclick="passwordChangeButton()">Zmień hasło</button>
             <div id="change-passwd">
             <form method="post" action="resetPassword.php">
                 <input type="password" placeholder="Wpisz obecne hasło" name="old_password" id="old_password" required>
@@ -31,13 +54,46 @@
                 <input type="password" placeholder="Powtórz nowe hasło" name="new_password_2" id="new_password_2" required>
                 <button type="submit">Wyślij nowe hasło</button>
             </form>
-            </div>
-            <?php if(isset($_SESSION['blad']))
-              {
-                echo $_SESSION['blad'];
-              }
+
+            <?php
+                if(isset($_SESSION['blad']))
+                {
+                    echo $_SESSION['blad'];
+                }
                 unset($_SESSION['blad']);
 	        ?>
+            </div>
+            <button class="s-psw" onclick="addressChangeButton()">Dane Adresowe</button>
+            <div id="change-address">
+            <?php
+                if($row === null)
+                {
+                    $row = [
+                        'street' => " ",
+                        'postcode' => " ",
+                        'city' => " ",
+                        'number' => " "
+                    ];
+                }
+ 
+                echo "<form method=\"post\" action=\"changeAddress.php\">
+                        <label for=\"fname\">Ulica:</label><br>
+                        <input type=\"text\" id=\"street\" name=\"street\" required value=$row[street]><br>
+
+                        <label for='lname'>Numer:</label><br>
+                        <input type='text' id='number' name='number' required value=$row[number]><br>
+
+                        <label for='lname'>Kod pocztowy:</label><br>
+                        <input type='text' id='postcode' name='postcode' required value=$row[postcode]><br>
+
+                        <label for='lname'>Miasto:</label><br>
+                        <input type='text' id='city' name='city' required value=$row[city]><br><br>
+
+                        <button type='submit'>Edytuj</button>
+                    </form>";
+            ?>
+
+            </div>
             <a href="logout.php"><button type="button" class="logoutbtn">Wyloguj się</button></a>
         </div>
         <script src="../js/funkcje.js"></script>
