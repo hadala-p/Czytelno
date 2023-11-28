@@ -397,6 +397,17 @@ span.psw
 {
   max-height: 400px;
 }
+#change-address 
+{
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in;
+}
+
+#change-address.expanded 
+{
+    max-height: 800px;
+}
 .profile
 {
   margin-top: 50px;
@@ -417,20 +428,6 @@ span.psw
 {
   padding: 10px;
   width: 80%;
-}
-#edytor
-{
-  display: none;
-}
-.ramka-edytor
-{
-  background-color: #f44336;
-  border: 3px black solid;
-  margin-bottom: 10px;
-}
-.ramka-edytor img
-{
-  width: 100%;
 }
 /* ---------------------------------------> slider */
 .img-slider

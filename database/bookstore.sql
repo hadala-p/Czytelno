@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 28 Lis 2023, 13:37
+-- Czas generowania: 28 Lis 2023, 20:30
 -- Wersja serwera: 10.4.27-MariaDB
 -- Wersja PHP: 8.2.0
 
@@ -32,6 +32,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `CheckSurnameOrders` (IN `last_name`
   WHERE users.lastName = last_name;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAddress` (IN `userNick` VARCHAR(255))   BEGIN
+    DECLARE addressDetails VARCHAR(1024);
+    SELECT a.street, a.postcode, a.number, a.city
+    FROM adresses a
+    JOIN users u ON u.id = a.user_id
+    WHERE u.nick = userNick;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `LoginUser` (IN `p_email` VARCHAR(50) COLLATE utf8mb4_general_ci, IN `p_password` VARCHAR(255) COLLATE utf8mb4_general_ci, OUT `login_success` BOOLEAN)   BEGIN
   DECLARE user_count INT;
 
@@ -53,6 +61,22 @@ END$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `RegisterUser` (IN `p_nick` VARCHAR(50), IN `p_firstName` VARCHAR(30), IN `p_lastName` VARCHAR(30), IN `p_email` VARCHAR(50), IN `p_password` VARCHAR(255))   BEGIN
     INSERT INTO users (nick, firstName, lastName, email, password)
     VALUES (p_nick, p_firstName, p_lastName, p_email, p_password);
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `setAddress` (IN `userNick` VARCHAR(255), IN `newStreet` VARCHAR(255), IN `newNumber` VARCHAR(255), IN `newPostalCode` VARCHAR(255), IN `newCity` VARCHAR(255))   BEGIN
+    DECLARE userId INT DEFAULT 0;
+    SELECT id INTO userId FROM users WHERE nick = userNick LIMIT 1;
+
+    IF userId > 0 THEN
+        -- Sprawdzenie, czy istnieje wpis w tabeli addresses
+        IF EXISTS (SELECT 1 FROM adresses WHERE user_id = userId) THEN
+            -- Aktualizacja istniejącego adresu
+            UPDATE adresses SET street = newStreet, number = newNumber, postcode = newPostalCode, city = newCity WHERE user_id = userId;
+        ELSE
+            -- Dodanie nowego adresu
+            INSERT INTO adresses (user_id, street, number, postcode, city) VALUES (userId, newStreet, newNumber, newPostalCode, newCity);
+        END IF;
+    END IF;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SetPassword` (IN `userNick` VARCHAR(255), IN `newPassword` VARCHAR(255))   BEGIN
@@ -90,6 +114,15 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `DoesUserExist` (`user_nick` VARCHAR(
   END IF;
 END$$
 
+CREATE DEFINER=`root`@`localhost` FUNCTION `getAddressInfo` (`userNick` VARCHAR(255)) RETURNS VARCHAR(1024) CHARSET utf8mb4 COLLATE utf8mb4_polish_ci  BEGIN
+    DECLARE addressDetails VARCHAR(1024);
+    SELECT CONCAT(a.street, ', ', a.number, ', ', a.postcode, ', ', a.city) INTO addressDetails
+    FROM adresses a
+    JOIN users u ON u.id = a.user_id
+    WHERE u.nick = userNick;
+    RETURN addressDetails;
+END$$
+
 CREATE DEFINER=`root`@`localhost` FUNCTION `GetPassword` (`userNick` VARCHAR(255)) RETURNS VARCHAR(255) CHARSET utf8mb4 COLLATE utf8mb4_polish_ci  BEGIN
     DECLARE userPassword VARCHAR(255);
     SELECT password INTO userPassword FROM users WHERE nick = userNick;
@@ -122,9 +155,17 @@ CREATE TABLE `adresses` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `street` varchar(30) NOT NULL,
+  `number` varchar(50) NOT NULL,
   `postcode` varchar(10) NOT NULL,
   `city` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+
+--
+-- Zrzut danych tabeli `adresses`
+--
+
+INSERT INTO `adresses` (`id`, `user_id`, `street`, `number`, `postcode`, `city`) VALUES
+(6, 1, 'Rynek', '15', '33-300', 'Kraków');
 
 -- --------------------------------------------------------
 
@@ -195,7 +236,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `nick`, `firstName`, `lastName`, `email`, `password`) VALUES
-(0, 'Vadim0143', 'Piotr', 'Hadała', 'example@op.pl', '$2y$10$cHVhMIV5lVf.DEIHGgu7pOx/9BfvwgHod60gPt3O6Q0QIS9j/99n6');
+(1, 'Vadim0143', 'Piotr', 'Hadała', 'example@op.pl', '$2y$10$cHVhMIV5lVf.DEIHGgu7pOx/9BfvwgHod60gPt3O6Q0QIS9j/99n6'),
+(2, 'Piotrek', 'Piotrek', 'Jakis', 'example@oop.pl', '$2y$10$1ZO.u.Cf/YsPaOs/1X09SO0PakylvP5wNktwJ4maBWmbrM6abLqNO');
 
 --
 -- Indeksy dla zrzutów tabel
@@ -228,6 +270,12 @@ ALTER TABLE `order_items`
   ADD KEY `idx_order_items_order_id` (`order_id`);
 
 --
+-- Indeksy dla tabeli `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT dla zrzuconych tabel
 --
 
@@ -235,7 +283,7 @@ ALTER TABLE `order_items`
 -- AUTO_INCREMENT dla tabeli `adresses`
 --
 ALTER TABLE `adresses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT dla tabeli `books`
@@ -248,6 +296,12 @@ ALTER TABLE `books`
 --
 ALTER TABLE `orders`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT dla tabeli `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Ograniczenia dla zrzutów tabel
