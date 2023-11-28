@@ -20,37 +20,37 @@ require_once"connect.php";
     {
         $user = $_SESSION['nick']; 
 
-        if($rezultat = @$connection->query(sprintf("SELECT * FROM users WHERE nick='%s'",$user)))
+        if($result = @$connection->query(sprintf("SELECT GetPassword('%s') as hash_password",$user)))
 		{
-			$wiersz = $rezultat->fetch_assoc();
+			$wiersz = $result->fetch_assoc();
             $password = $_POST['old_password']; 
             $password1 = $_POST['new_password_1']; 
             $password2 = $_POST['new_password_2']; 
-            $wszystko_OK=true;
-		    if(password_verify($password,$wiersz['password']))
+            $all_OK=true;
+		    if(password_verify($password,$wiersz['hash_password']))
 			{
                 
                  // sprawdzanie długość hasła jest odpowiednia
                 if(strlen($password1)<8||(strlen($password1)>20))
                 {
-                    $wszystko_OK=false;
-                    $_SESSION['blad']='<span style="color:red"><br>Hasło powinno zawierać od 8 do 20znaków!<br></span>';
+                    $all_OK=false;
+                    $_SESSION['blad']='<span style="color:red"><br>Nowe hasło powinno zawierać od 8 do 20znaków!<br></span>';
                     header('Location:profile.php');
                 }
                 // sprawdzanie długości czy hasło są identyczne
                 if($password1!=$password2)
                 {
-                    $wszystko_OK=false;
-                    $_SESSION['blad']='<span style="color:red"><br>Hasła się różnią!<br></span>';
+                    $all_OK=false;
+                    $_SESSION['blad']='<span style="color:red"><br>Nowe hasła się różnią!<br></span>';
                     header('Location:profile.php');
                 }
                 // haszowanie haseł
                 $password_hash=password_hash($password1,PASSWORD_DEFAULT);
-                $rezultat->free_result();
+                $result->free_result();
 
-                if($wszystko_OK==true)
+                if($all_OK==true)
                 {
-                    if($connection->query("UPDATE users SET password = '$password_hash' WHERE nick='$user'"))
+                    if($connection->query("CALL SetPassword('$user', '$password_hash')"))
                     {
                         $_SESSION['blad']='<span style="color:green"><br>Zmieniono hasło<br></span>';
                         header('Location: profile.php');

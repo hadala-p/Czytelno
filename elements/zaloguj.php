@@ -2,7 +2,7 @@
 
 	session_start();
 
-	if((!isset($_POST['login'])) || (!isset($_POST['haslo'])))
+	if((!isset($_POST['login'])) || (!isset($_POST['password'])))
 	{
 		header('Location: ../index.php');
 		exit();
@@ -11,37 +11,34 @@
     require_once"connect.php";
 	mysqli_report(0);
 
-    $polaczenie = @new mysqli($host,$db_user,$db_password,$db_name);
+    $connection = @new mysqli($host,$db_user,$db_password,$db_name);
 
-    if($polaczenie -> connect_errno)
+    if($connection -> connect_errno)
     {
-        echo "Failed to connect to MySQL: " . $polaczenie -> connect_errno;
+        echo "Failed to connect to MySQL: " . $connection -> connect_errno;
 		exit();
     }
     else
     {
         $login = $_POST['login'];
-        $haslo = $_POST['haslo']; 
-
+        $password = $_POST['password']; 
 		$login = htmlentities($login, ENT_QUOTES, "UTF-8");
 
-        if($rezultat = @$polaczenie->query(sprintf("SELECT * FROM users WHERE nick='%s'",
-		mysqli_real_escape_string($polaczenie,$login))))
+        if($result = @$connection->query(sprintf("SELECT GetPassword('%s') as hash_password",
+		mysqli_real_escape_string($connection,$login))))
 		{
-			$ilu_userow = $rezultat->num_rows;
-			if($ilu_userow>0)
-			{
-				$wiersz = $rezultat->fetch_assoc();
 
-				if(password_verify($haslo,$wiersz['password']))
+			if($result)
+			{
+				$row = $result->fetch_assoc();
+
+				if(password_verify($password,$row['hash_password']))
 				{
 
 					$_SESSION['zalogowany'] = true;
-					$_SESSION['id']=$wiersz['id'];
-					$_SESSION['nick'] = $wiersz['nick'];
-					
+					$_SESSION['nick'] = $_POST['login'];
 					unset($_SESSION['blad']);
-					$rezultat->free_result();
+					$result->free_result();
 					header('Location:../index.php');
 				}
 				else
@@ -53,12 +50,12 @@
 			}
 			else
 			{
-				$_SESSION['blad']='<span style="color:red">Nie prawidłowy login lub hasło!</span>';
+				$_SESSION['blad']='<span style="color:red">Nie prawidłowy loogin lub hasło!</span>';
 				header('Location:loggin.php');
 			}
 		}
 
-        $polaczenie->close();
+        $connection->close();
     }
 
 ?>

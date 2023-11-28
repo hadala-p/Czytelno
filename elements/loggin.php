@@ -31,7 +31,7 @@
             <input type="text" placeholder="Wpisz nick" name="login" required>
 
             <label><b>Hasło:</b></label>
-            <input type="password" placeholder="Wpisz hasło" name="haslo" required>
+            <input type="password" placeholder="Wpisz hasło" name="password" required>
                 
             <button type="submit">Zaloguj</button>
             <label>
