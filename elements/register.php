@@ -3,104 +3,98 @@
  
     if(isset($_POST['email']))
     {
-        $wszystko_OK=true;
+        $all_OK=true;
         //  checking nickname length
         $nick=$_POST['nick'];
         if(strlen($nick)<3||(strlen($nick)>20))
         {
-            $wszystko_OK=false;
+            $all_OK=false;
             $_SESSION['e_nick']="Nick musi posiadać od 3 do 20 znaków!";
         }
         // checking the letters of the given nickname
         if(ctype_alnum($nick)==false)
         {
-            $wszystko_OK=false;
+            $all_OK=false;
             $_SESSION['e_nick']="Nick może składać się tylko z liter i cyfr (bez polskich znaków)";
         }
         // checking the correctness of the entered email through the filter
-        $email=$_POST['email'];
+        $email= $_POST['email'];
         $emailB=filter_var($email,FILTER_SANITIZE_EMAIL);
 
         if((filter_var($emailB,FILTER_VALIDATE_EMAIL)==false)||($emailB!=$email))
         {
-            $wszystko_OK=false;
+            $all_OK=false;
             $_SESSION['e_email']="Podaj poprawny adres e-mail!";
         }
 
-        $haslo1=$_POST['psw1'];
-        $haslo2=$_POST['psw2'];
+        $password1=$_POST['psw1'];
+        $password2=$_POST['psw2'];
         // checking the password length is correct
-        if(strlen($haslo1)<8||(strlen($haslo1)>20))
+        if(strlen($password1)<8||(strlen($password1)>20))
         {
-            $wszystko_OK=false;
+            $all_OK=false;
             $_SESSION['e_haslo']="Haslo musi posiadać od 8 do 20 znaków";
         }
         // checking if passwords are identical
-        if($haslo1!=$haslo2)
+        if($password1!=$password2)
         {
-            $wszystko_OK=false;
+            $all_OK=false;
             $_SESSION['e_haslo']="Podane hasła nie są identyczne!";
         }
         // password hashing
-        $haslo_hash=password_hash($haslo1,PASSWORD_DEFAULT);
+        $haslo_hash=password_hash($password1,PASSWORD_DEFAULT);
 
         // acceptance of the rules
 
         if(!isset($_POST['regulamin']))
         {
-            $wszystko_OK=false;
+            $all_OK=false;
             $_SESSION['e_regulamin']="Niezaakceptowano regulaminu!";
         }
 
         require_once "connect.php";
         try
         {
-            $polaczenie = new mysqli($host,$db_user,$db_password,$db_name);
-            if($polaczenie -> connect_errno)
+            $connection = new mysqli($host,$db_user,$db_password,$db_name);
+            if($connection -> connect_errno)
             {
                 throw new Exception(mysqli_connect_errno());
             }
             else
             {
                 // checking if the email exists
-                $rezultat=$polaczenie->query("SELECT id FROM users WHERE email='$email'");
-
-                if(!$rezultat)
-                throw new Exception($polaczenie->error);
-
-                $ile_takich_maili = $rezultat->num_rows;
-                if($ile_takich_maili>0)
+                $result=$connection->query("SELECT DoesEmailExist('$email') As result");
+                $row = $result->fetch_assoc();
+                $doesEmailExist = $row['result'];
+                if($doesEmailExist)
                 {
-                    $wszystko_OK=false;
-                    $_SESSION['e_email']="Istnieje juz konto zarejestrowane na podany email!"; 
+                    $all_OK=false;
+                    $_SESSION['e_email']="Istnieje juz konto zarejestrowane na podany email! "; 
                 }
                 // checking if the nickname exists
-                $rezultat=$polaczenie->query("SELECT id FROM users WHERE nick='$nick'");
+                $result=$connection->query("SELECT DoesUserExist('$nick') As result");
+                $row = $result->fetch_assoc();
+                $doesNickExist = $row['result'];
 
-                if(!$rezultat)
-                    throw new Exception($polaczenie->error);
-
-                $ile_takich_nickow = $rezultat->num_rows;
-
-                if($ile_takich_nickow>0)
+                if($doesNickExist)
                 {
-                    $wszystko_OK=false;
+                    $all_OK=false;
                     $_SESSION['e_nick']="Istnieje juz użytkownik o takiej nazwie!"; 
                 }
-                if($wszystko_OK==true)
+                if($all_OK==true)
                 {
                     $firstName=$_POST['firstName'];
                     $lastName=$_POST['lastName'];
-                    if($polaczenie->query("INSERT INTO users VALUES (NULL,'$nick','$firstName','$lastName', '$email', '$haslo_hash')"))
+                    if($connection->query("CALL RegisterUser('$nick','$firstName','$lastName', '$email', '$haslo_hash')"))
                     {
                         header('Location: loggin.php');
                     }
                     else
                     {
-                        throw new Exception($polaczenie->error);
+                        throw new Exception($connection->error);
                     }
                 }
-                $polaczenie->close();
+                $connection->close();
             }
         }
         catch(Exception $e)

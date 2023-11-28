@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 27 Lis 2023, 21:34
+-- Czas generowania: 28 Lis 2023, 13:37
 -- Wersja serwera: 10.4.27-MariaDB
--- Wersja PHP: 8.0.25
+-- Wersja PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Baza danych: `bazy_proj`
+-- Baza danych: `bookstore`
 --
 
 DELIMITER $$
@@ -50,31 +50,19 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `LoginUser` (IN `p_email` VARCHAR(50
   END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `RegisterUser` (IN `p_nick` VARCHAR(50) COLLATE utf8mb4_general_ci, IN `p_firstName` VARCHAR(30) COLLATE utf8mb4_general_ci, IN `p_lastName` VARCHAR(30) COLLATE utf8mb4_general_ci, IN `p_email` VARCHAR(50) COLLATE utf8mb4_general_ci, IN `p_password` VARCHAR(255) COLLATE utf8mb4_general_ci, OUT `registration_success` BOOLEAN)   BEGIN
-  DECLARE user_count INT;
-
-  -- Sprawdzamy, czy użytkownik o podanym adresie e-mail już istnieje
-  SELECT COUNT(*) INTO user_count
-  FROM users
-  WHERE email = p_email COLLATE utf8mb4_general_ci;
-
-  -- Jeśli użytkownik już istnieje, ustawiamy registration_success na FALSE
-  IF user_count > 0 THEN
-    SET registration_success = FALSE;
-  ELSE
-    -- Jeśli użytkownik nie istnieje, dodajemy go do bazy danych
+CREATE DEFINER=`root`@`localhost` PROCEDURE `RegisterUser` (IN `p_nick` VARCHAR(50), IN `p_firstName` VARCHAR(30), IN `p_lastName` VARCHAR(30), IN `p_email` VARCHAR(50), IN `p_password` VARCHAR(255))   BEGIN
     INSERT INTO users (nick, firstName, lastName, email, password)
     VALUES (p_nick, p_firstName, p_lastName, p_email, p_password);
+END$$
 
-    -- Ustawiamy registration_success na TRUE, oznaczając udaną rejestrację
-    SET registration_success = TRUE;
-  END IF;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SetPassword` (IN `userNick` VARCHAR(255), IN `newPassword` VARCHAR(255))   BEGIN
+    UPDATE users SET password = newPassword WHERE nick = userNick;
 END$$
 
 --
 -- Funkcje
 --
-CREATE DEFINER=`root`@`localhost` FUNCTION `DoesUserExist` (`user_email` VARCHAR(50)) RETURNS TINYINT(1)  BEGIN
+CREATE DEFINER=`root`@`localhost` FUNCTION `DoesEmailExist` (`user_email` VARCHAR(50) CHARSET utf8) RETURNS TINYINT(1)  BEGIN
   DECLARE user_count INT;
 
   SELECT COUNT(*) INTO user_count
@@ -86,6 +74,26 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `DoesUserExist` (`user_email` VARCHAR
   ELSE
     RETURN FALSE;
   END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `DoesUserExist` (`user_nick` VARCHAR(50)) RETURNS TINYINT(1)  BEGIN
+  DECLARE user_count INT;
+
+  SELECT COUNT(*) INTO user_count
+  FROM users
+  WHERE nick = user_nick;
+
+  IF user_count > 0 THEN
+    RETURN TRUE;
+  ELSE
+    RETURN FALSE;
+  END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `GetPassword` (`userNick` VARCHAR(255)) RETURNS VARCHAR(255) CHARSET utf8mb4 COLLATE utf8mb4_polish_ci  BEGIN
+    DECLARE userPassword VARCHAR(255);
+    SELECT password INTO userPassword FROM users WHERE nick = userNick;
+    RETURN userPassword;
 END$$
 
 CREATE DEFINER=`root`@`localhost` FUNCTION `OrderStatus` (`order_id` INT) RETURNS VARCHAR(255) CHARSET utf8mb4 COLLATE utf8mb4_general_ci  BEGIN
@@ -187,8 +195,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `nick`, `firstName`, `lastName`, `email`, `password`) VALUES
-(1, 'Vadim0143', 'Piotr', 'Hadała', 'example@op.pl', '$2y$10$3UpyukD2u0A0Qe/VEsScAu.jUrORtTT.5KNCodvovS8jaaG4wf.hy'),
-(2, 'Grosik', 'Bartek', 'Grosicki', 'gr@up.pl', 'passwd');
+(0, 'Vadim0143', 'Piotr', 'Hadała', 'example@op.pl', '$2y$10$cHVhMIV5lVf.DEIHGgu7pOx/9BfvwgHod60gPt3O6Q0QIS9j/99n6');
 
 --
 -- Indeksy dla zrzutów tabel
@@ -221,12 +228,6 @@ ALTER TABLE `order_items`
   ADD KEY `idx_order_items_order_id` (`order_id`);
 
 --
--- Indeksy dla tabeli `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
-
---
 -- AUTO_INCREMENT dla zrzuconych tabel
 --
 
@@ -247,12 +248,6 @@ ALTER TABLE `books`
 --
 ALTER TABLE `orders`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT dla tabeli `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Ograniczenia dla zrzutów tabel
