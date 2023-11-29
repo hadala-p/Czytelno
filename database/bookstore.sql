@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 28 Lis 2023, 20:30
+-- Czas generowania: 29 Lis 2023, 12:39
 -- Wersja serwera: 10.4.27-MariaDB
--- Wersja PHP: 8.2.0
+-- Wersja PHP: 8.0.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -165,7 +165,15 @@ CREATE TABLE `adresses` (
 --
 
 INSERT INTO `adresses` (`id`, `user_id`, `street`, `number`, `postcode`, `city`) VALUES
-(6, 1, 'Rynek', '15', '33-300', 'Kraków');
+(6, 1, 'Rynek', '17', '33-300', 'Kraków');
+
+--
+-- Wyzwalacze `adresses`
+--
+DELIMITER $$
+CREATE TRIGGER `archiwizuj` AFTER UPDATE ON `adresses` FOR EACH ROW INSERT INTO old_addresses VALUES(old.id ,old.user_id, old.street, old.number, old.postcode, old.city)
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -184,6 +192,21 @@ CREATE TABLE `books` (
   `image_name` varchar(255) NOT NULL,
   `category` varchar(50) NOT NULL,
   `description` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `old_addresses`
+--
+
+CREATE TABLE `old_addresses` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `street` varchar(30) NOT NULL,
+  `number` varchar(50) NOT NULL,
+  `postcode` varchar(10) NOT NULL,
+  `city` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 
@@ -260,6 +283,12 @@ ALTER TABLE `books`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeksy dla tabeli `old_addresses`
+--
+ALTER TABLE `old_addresses`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeksy dla tabeli `orders`
 --
 ALTER TABLE `orders`
@@ -294,6 +323,12 @@ ALTER TABLE `adresses`
 --
 ALTER TABLE `books`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT dla tabeli `old_addresses`
+--
+ALTER TABLE `old_addresses`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT dla tabeli `orders`
