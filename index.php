@@ -62,9 +62,23 @@
       </section>
       <section class="index_news">
         <h1>Nowości</h1>
-        <div class="row">
-
-        </div>
+        <div class="row" id="template-body">
+                <template id="car-template">
+                    <div class="col s12 m8 offset-m2 l12">
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="../img/books/Kwazar.png" class="responsive-img" id="template-preview-image" alt="Książka">
+                            </div>
+                            <div class="card-content grey darken-4" >
+                                <p class="white-text height1" id="template-description">Tutaj ma być opis samochodu</p>
+                            </div>
+                            <div class="card-action orange darken-3" style="text-align: center !important;">
+                                <a href="elements/book_card.php" id="reservation-button">Szczegóły</a>
+                            </div>
+                        </div>
+                    </div>    
+                </template>
+            </div>
       </section>
       <section class="top_view">
         <h1>BestSellery</h1>
@@ -84,9 +98,12 @@
     </main>
     </div>
     <?php include 'elements/footer.html';?>
-    <script src="js/zegar.js"></script>
     <script src="js/funkcje.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/slider.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="database/dataBaseManager.js"></script>
+    <script src="js/indexContent.js"></script>
+    
   </body>
 </html>
