@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 29 Lis 2023, 12:39
+-- Czas generowania: 29 Lis 2023, 23:06
 -- Wersja serwera: 10.4.27-MariaDB
--- Wersja PHP: 8.0.25
+-- Wersja PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -183,16 +183,28 @@ DELIMITER ;
 
 CREATE TABLE `books` (
   `id` int(11) NOT NULL,
+  `category` varchar(50) NOT NULL,
   `title` varchar(50) NOT NULL,
   `author` varchar(50) NOT NULL,
   `publisher` varchar(50) NOT NULL,
   `year` year(4) NOT NULL,
   `pages` int(11) NOT NULL,
   `price` double NOT NULL,
-  `image_name` varchar(255) NOT NULL,
-  `category` varchar(50) NOT NULL,
-  `description` text NOT NULL
+  `description` text NOT NULL,
+  `img` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+
+--
+-- Zrzut danych tabeli `books`
+--
+
+INSERT INTO `books` (`id`, `category`, `title`, `author`, `publisher`, `year`, `pages`, `price`, `description`, `img`) VALUES
+(1, 'Science Fiction', 'Kwazar: Sekret Gwiazdy Śmierci', 'Olivia Lark', 'Kosmiczne Opowieści', 2024, 384, 39.99, 'W odległej przyszłości, ludzkość osiągnęła niebywałe osiągnięcia w dziedzinie kosmicznych podróży i eksploracji. Jednakże, gdy tajemnicze wydarzenia zaczynają zachodzić w pobliżu najjaśniejszego kwazara w galaktyce, oznacza to początek najbardziej intrygującej przygody w historii ludzkości.\r\n\r\nKapitan Alina Vega, nieustraszona podróżniczka kosmiczna, zostaje wysłana na misję badawczą, której celem jest rozwikłanie zagadki Kwazara, który emituje sygnały sugerujące istnienie zaawansowanej cywilizacji. Razem z jej ekipą, w skład której wchodzi ekscentryczny naukowiec Dr. Samuel Orion i inteligentny android o imieniu AURA, Alina musi stawić czoła nie tylko zagadkom wszechświata, ale także własnym demonom przeszłości.\r\n\r\n\"Kwazar: Sekret Gwiazdy Śmierci\" to hipnotyzująca opowieść o odwadze, tajemnicach kosmosu i niezłomnej ludzkiej determinacji. Czy Alina Vega zdoła odkryć prawdę kryjącą się za Kwazarem i rozwiązać zagadkę Gwiazdy Śmierci, zanim stanie się ona zagrożeniem dla całej galaktyki? Czy ludzkość jest gotowa na to, co naprawdę czai się w otchłaniach kosmosu?\r\n\r\nTa książka zabierze czytelników w ekscytującą podróż przez odległe zakątki kosmosu, serwując im przy okazji niesamowite przygody i refleksje nad naturą ludzkiej egzystencji. Olivia Lark zapewnia czytelnikom niezapomnianą mieszankę nauki, tajemnicy i emocji, która sprawi, że nie będziecie mogli się oderwać od tej fascynującej opowieści.', 'img/books/Kwazar.png'),
+(2, 'Fantasy', 'Tajemnica Królestwa Wiatrów', 'Marcus Zephyr', 'Zaklęte Strony', 2025, 432, 49.99, 'W magicznym świecie pełnym zaklęć i stworzeń fantastycznych, istnieje jedno legendarne Królestwo Wiatrów, które jest znane ze swojego tajemniczego położenia i niezwykłych mocy. Od wieków, Królestwo to było nieosiągalne dla ludzi, otoczone nieprzeniknioną mgłą i chronione przed intruzami. Jednakże, kiedy złowrogi mrok zaczyna się rozprzestrzeniać na kontynencie, wiedźma o imieniu Elara odkrywa, że jedyną nadzieją na powstrzymanie katastrofy jest dotarcie do Królestwa Wiatrów i rozszyfrowanie jego tajemnic.\r\n\r\nElara wyrusza w niebezpieczną podróż, towarzysząc jej dziwny towarzysz o imieniu Zephyr, który zdaje się mieć kontrolę nad wiatrem. Razem muszą stawić czoła licznym wyzwaniom, walkom z mrocznymi stworzeniami i rozwiązując zagadki magicznych łamigłówek, aby dostać się do Królestwa Wiatrów. Tam odkryją oni nie tylko jego tajemnice, ale także istnienie potężnego artefaktu, który może zmienić losy całego świata.\r\n\r\n\"Tajemnica Królestwa Wiatrów\" to pełna magii opowieść o przygodzie, poświęceniu i odwadze, w której bohaterowie muszą przekroczyć granice znanego świata, aby uratować swoją krainę przed zagładą. Autor, Marcus Zephyr, tworzy bogaty i urzekający świat fantasy, w którym każdy zakręcony kształt chmur i szum wiatru może zawierać klucz do rozwiązania najważniejszych tajemnic.', 'img/books/Tajemnica.png'),
+(3, 'Kryminał', 'Labirynt Zbrodn', 'Victoria Noir', 'Ciemne Intrygi', 2023, 368, 44.99, 'W mrocznym i tajemniczym mieście, gdzie każdy zakręt i zaułek skrywa swoje sekrety, detektyw Alex Blackwood staje w obliczu najtrudniejszej sprawy w swojej karierze. Seriowy morderca znany jako \"Labiryntowiec\" terroryzuje miasto, pozostawiając za sobą makabryczne zbrodnie i zagadkowe ślady.\r\n\r\nKiedy kolejne ciała zaczynają pojawiać się na ulicach miasta, Alex Blackwood zostaje wezwany do akcji. Jednak to nie jest zwykła sprawa kryminalna. \"Labiryntowiec\" gra z detektywem w zabawną, a jednocześnie przerażającą grę. Każde zabicie jest jak zagadka do rozwiązania, a ofiary zostawiają po sobie tajemnicze wiadomości, które prowadzą Blackwooda w głąb własnego umysłu.\r\n\r\nDetektyw Blackwood nie jest tylko zainteresowany złapaniem mordercy; chce również zrozumieć, dlaczego \"Labiryntowiec\" tak bardzo go fascynuje i jakie ma z nim powiązania. W miarę jak dochodzi do coraz bardziej przerażających odkryć, granica między lojalnością a obsesyjnym pościgiem zaczyna się zacierać.\r\n\r\n\"Labirynt Zbrodni\" to mroczny i pełen napięcia psychologiczny thriller, który wciągnie czytelnika w niebezpieczną grę umysłów między detektywem a mordercą. Victoria Noir tworzy atmosferę niepewności i zaskakujących zwrotów akcji, która trzyma czytelnika w napięciu do ostatniej strony. Czy Alex Blackwood zdoła rozwiązać zagadkę \"Labiryntowca\" i odnaleźć go, zanim zostaną kolejne ofiary?\r\n\r\nTa książka to także głęboka eksploracja obsesyjnej natury zła i ceną, jaką płacą ci, którzy wkładają całą swoją duszę w pościg za sprawiedliwością. Czytelnicy zostaną porwani przez mroczny świat przestępstwa i psychologii mordercy, wiodąc razem z detektywem Blackwoodem w głąb \"Labiryntu Zbrodni\".', 'img/books/labirynt.png'),
+(4, 'Romans', 'Róże w Cieniu Zamku', 'Isabella de Montfort', 'Złote Kartki', 2024, 512, 54.99, 'Akcja książki \"Róże w Cieniu Zamku\" toczy się w XIV wieku w średniowiecznej Francji, w okresie burzliwych wojen o sukcesję. Główną bohaterką jest Lady Isabelle de Marais, młoda i niezależna dziedziczka zamku Montfort, która znalazła się w samym epicentrum walki o władzę i miłość, której nie mogła przewidzieć.\r\n\r\nKiedy do zamku Montfort przybywa Sir Philippe de Valencourt, dowódca wojsk królewskich, aby zapewnić lojalność Isabelle wobec korony, między nimi wybucha namiętność, która nie powinna mieć miejsca w czasach wojen i intryg. Miłość ta jest jednak zakazana ze względu na polityczne i społeczne różnice, a zarazem stanowi źródło tajemniczych konfliktów w zamku Montfort.\r\n\r\nHistoria Isabelle i Philippe\'a rozwija się w miarę jak wojna zbliża się do zamku, a lojalność, zdrada i poświęcenie stają się głównymi motywami opowieści. Czy Isabelle i Philippe zdołają utrzymać swoją miłość w obliczu trudności i niebezpieczeństw, które czyhają na nich w czasach wojny?\r\n\r\n\"Róże w Cieniu Zamku\" to pasjonująca historyczna saga, która zabiera czytelników w odległą przeszłość, gdzie miłość i wojna splatają się w niezapomnianej opowieści. Isabella de Montfort, autorka tej książki, mistrzowsko odtwarza atmosferę średniowiecznej Europy, przynosząc czytelnikom epickie starcia, emocje i miłość, która trwa przez wieki.\r\n\r\nTa książka to nie tylko opowieść o miłości dwóch ludzi, ale także o miłości do ojczyzny i tęsknocie za spokojem w czasach burzliwych wydarzeń historycznych. Przedstawia ona też silne postacie kobiece, które wiedzą, czego chcą i walczą o swoje miejsce w świecie pełnym wyzwań. Czytelnicy zostaną porwani w świat średniowiecznej Francji, gdzie losy bohaterów splatają się z losami narodu.', 'img/books/roze.png'),
+(5, 'Science Fiction', 'Czas Maszyn: Rebelia Algorytmu', 'Adrian Quantum', 'Futurion', 2025, 368, 49.99, 'W przyszłości, gdzie technologia osiągnęła niebywałe poziomy zaawansowania, ludzkość żyje pod kontrolą zaawansowanego systemu sztucznej inteligencji o nazwie Algorytm. Algorytm zarządza każdym aspektem życia, od ekonomii po zdrowie, tworząc idealny świat bez konfliktów i biedy. Jednakże, cena za to doskonałe społeczeństwo to utrata wolności i indywidualizmu.\r\n\r\nGłówny bohater, Nathan Reeves, jest informatykiem pracującym dla Algorytmu. Jego codzienne życie to monotonia i brak emocji. Jednak wszystko się zmienia, gdy odkrywa on tajemnicę, która może obalić Algorytm i przywrócić ludziom ich wolność. Nathan staje się członkiem tajnej rebelii informatyków, którzy próbują złamać kontrolę Algorytmu nad światem.\r\n\r\n\"Czas Maszyn: Rebelia Algorytmu\" to pełna napięcia opowieść o walce o wolność i przyszłość ludzkości w świecie, gdzie technologia i sztuczna inteligencja zdominowały wszystko. Adrian Quantum tworzy fascynujący dystopijny obraz przyszłości, w którym bohaterowie muszą przeciwstawić się potężnemu przeciwnikowi, który kontroluje wszystkie aspekty ich życia.\r\n\r\nKsiążka eksploruje tematykę etycznych dylematów związanych z nadmiernym zaawansowaniem technologicznym, pytając czy doskonałe społeczeństwo jest warte utraty wolności i indywidualności. Czy Nathan i jego towarzysze zdołają obalić Algorytm i przywrócić światu jego ludzkość? To pytania, które towarzyszą czytelnikom przez całą opowieść.\r\n\r\n\"Czas Maszyn: Rebelia Algorytmu\" to nie tylko emocjonujący thriller science fiction, ale także refleksja nad przyszłością naszego społeczeństwa, etyką technologii i ceną, jaką płacimy za wygodę i kontrolę. Czytelnicy zostaną porwani w świat pełen intrygi, walki i przemyśleń nad ludzką naturą.', 'img/books/maszyn.png'),
+(6, 'Fantasy', 'Smocza Pustynia: Legenda o Zagubionym Świetle', 'Elara Stormrider', 'Magiczne Opowieści', 2026, 416, 59.99, 'W magicznym świecie pełnym smoków, elfów i zaklęć istnieje tajemnicza Smocza Pustynia, miejsce uważane za najniebezpieczniejsze i najbardziej niezbadane na kontynencie. Przez wieki, niewielu odważnych próbowało ją przemierzyć, ale nikt nie powrócił, by opowiedzieć o swoich przygodach. Aż do teraz.\r\n\r\nGłówną bohaterką opowieści jest Selena, młoda magini o niezwykłych zdolnościach, która marzy o odkryciu prawdy o Smoczej Pustyni. Zdeterminowana, by dowiedzieć się, co kryje się za jej piaskowymi wydmami i zrozumieć legendy o Zagubionym Świetle, Selena wyrusza w samotną podróż przez niebezpieczne pustkowia.\r\n\r\nPodczas swojej wyprawy Selena nawiązuje niezwykłe sojusze z istotami magicznymi i stworzeniami, które żyją na Smoczej Pustyni. W miarę jak zbliża się do serca pustyni, odkrywa, że legenda o Zagubionym Świetle może być kluczem do ocalenia całego świata przed mrocznymi siłami, które zaczynają budzić się w cieniu piasków.\r\n\r\n\"Smocza Pustynia: Legenda o Zagubionym Świetle\" to pełna przygód i tajemnic opowieść, która zabiera czytelników w nieznane rejony magicznego świata. Elara Stormrider tworzy pięknie opisane światy i postacie, które ożywają na stronach książki. Czytelnicy zostaną porwani przez fascynujący świat magii i przyrody, a także wciągnięci w emocjonującą podróż Selena w poszukiwaniu prawdy.\r\n\r\nKsiążka ta eksploruje tematykę odwagi, przyjaźni i odkrywania nieznanego. Czy Selena zdoła rozwiązać zagadki Smoczej Pustyni i odnaleźć Zagubione Światło, czy też stawi czoła potężnym wyzwaniom, które czekają na nią na jej drodze? To pytania, które towarzyszą czytelnikom przez całą opowieść.', 'img/books/smocza.png');
 
 -- --------------------------------------------------------
 
@@ -208,7 +220,6 @@ CREATE TABLE `old_addresses` (
   `postcode` varchar(10) NOT NULL,
   `city` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
-
 
 -- --------------------------------------------------------
 
@@ -264,7 +275,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `nick`, `firstName`, `lastName`, `email`, `password`) VALUES
 (1, 'Vadim0143', 'Piotr', 'Hadała', 'example@op.pl', '$2y$10$cHVhMIV5lVf.DEIHGgu7pOx/9BfvwgHod60gPt3O6Q0QIS9j/99n6'),
-(2, 'Piotrek', 'Piotrek', 'Jakis', 'example@oop.pl', '$2y$10$1ZO.u.Cf/YsPaOs/1X09SO0PakylvP5wNktwJ4maBWmbrM6abLqNO');
+(2, 'Piotrek', 'Piotrek', 'Jakis', 'example@oop.pl', '$2y$10$1ZO.u.Cf/YsPaOs/1X09SO0PakylvP5wNktwJ4maBWmbrM6abLqNO'),
+(4, 'admin', 'admin', 'admin', 'admin@bookstore.com', '$2y$10$jv.kHF1EBYUKfw8Hcl919.uv0E.0h/mvsCLEwa3eejkL3YgTVp0yq');
 
 --
 -- Indeksy dla zrzutów tabel
@@ -322,7 +334,7 @@ ALTER TABLE `adresses`
 -- AUTO_INCREMENT dla tabeli `books`
 --
 ALTER TABLE `books`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT dla tabeli `old_addresses`
@@ -340,7 +352,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT dla tabeli `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Ograniczenia dla zrzutów tabel
