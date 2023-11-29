@@ -5,9 +5,9 @@
       header("Location:loggin.php");
       exit();
     }
-    if($_SESSION['nick'] === "admin")
+    if($_SESSION['nick'] !== "admin")
     {
-        header("Location:adminPanel.php");
+        header("Location:loggin.php");
         exit();
     }
 
@@ -99,6 +99,8 @@
             ?>
 
             </div>
+            <a href="booksEditor.php"><button type="button" class="booksEditorbtn">Edytor książek</button></a>
+            <a href="bookAdd.php"><button type="button" class="booksEditorbtn">Dodaj książkę</button></a>
             <a href="logout.php"><button type="button" class="logoutbtn">Wyloguj się</button></a>
         </div>
         <script src="../js/funkcje.js"></script>
