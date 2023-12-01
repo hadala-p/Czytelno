@@ -64,7 +64,7 @@
         <h1>Nowości</h1>
         <div class="row" id="template-body">
                 <template id="car-template">
-                    <div class="col s12 m8 offset-m2 l12">
+                    <div class="col-md-3">
                         <div class="card">
                             <div class="card-image">
                                 <img src="../img/books/Kwazar.png" class="responsive-img" id="template-preview-image" alt="Książka">
