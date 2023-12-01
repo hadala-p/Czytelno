@@ -1,4 +1,7 @@
-<?php session_start();?>
+<?php session_start();
+if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = array();
+}?>
 <!doctype html>
 <html lang="pl">
   <head>
@@ -12,7 +15,7 @@
   </head>
   <body>
     <?php 
-        include 'elements/headerMainPage.html';
+        include 'elements/headerMainPage.php';
         include 'elements/navigationBar.html';
     ?>
 
@@ -66,6 +69,5 @@
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="database/dataBaseManager.js"></script>
     <script src="js/indexContent.js"></script>
-    
   </body>
 </html>

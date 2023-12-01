@@ -1,3 +1,7 @@
+<?php session_start();
+if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = array();
+}?>
 <!doctype html>
 <html lang="pl">
     <head>
@@ -41,7 +45,7 @@
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam consequat egestas luctus. Morbi et mauris augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Aenean at nunc nisi. Aliquam mauris tortor, iaculis sit amet luctus sit amet, varius et enim. Sed tristique, nulla ac ultricies euismod, lacus erat ornare lectus, id venenatis diam erat et risus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nunc eu dolor vel dui volutpat dignissim condimentum eu elit. In lacinia leo quis magna posuere accumsan. Nulla urna eros, interdum vitae laoreet nec, rutrum a risus. Curabitur consequat lobortis ligula vitae egestas. Nullam sed imperdiet tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
                     </div>
                 </div>
-                <button onclick="addToCart(<?php echo $book_id; ?>, '<?php echo $book_name; ?>', <?php echo $book_price; ?>)">
+                <button id="addToCartButton" onclick="addToCart(<?php echo $book_id; ?>, '<?php echo $book_name; ?>', <?php echo $book_price; ?>)">
                      Dodaj do koszyka
                 </button>
             </div>
@@ -49,5 +53,19 @@
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="../database/dataBaseManager.js"></script>
     <script src="../js/DisplayBookDetails.js"></script>
+    <script>
+        function addToCart(product_id, product_name, product_price) {
+            // Wywołaj funkcję PHP poprzez AJAX, aby dodać produkt do koszyka
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Produkt został dodany do koszyka, możesz wykonać odpowiednie działania w interfejsie użytkownika
+                }
+            };
+            xhr.open("POST", "add_to_cart.php", true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.send("product_id=" + product_id + "&product_name=" + product_name + "&product_price=" + product_price);
+        }
+    </script>
     </body>
 </html>

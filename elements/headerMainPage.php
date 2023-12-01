@@ -12,8 +12,16 @@
                 </form>
             </div>
         </div>
-        <div class=" col-sm-1 col-md-1">
-            <img src="img/basket.png" width="70" height="70" alt="basket">
+        <div class="col-sm-1 col-md-1 dropdown">
+            <img src="img/basket.png" class="dropbtn" width="70" height="70" alt="basket">
+            <div class="dropdown-content" style="left:0;">
+                <?php
+                    foreach ($_SESSION['cart'] as $product_id => $product) 
+                    {
+                        echo "<a href=''#'>Tytuł: ".$product['name']."<br> Ilość: ".$product['quantity']."<br>Cena: ".$product['price'] * $product['quantity']."</a>";
+                    }
+                ?>
+            </div>
         </div>
     </div>
 </header>

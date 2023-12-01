@@ -51,6 +51,16 @@ async function displayDetails() {
 	let description = response[id]['description'];
 	let descriptionDiv = document.getElementById("description");
 	descriptionDiv.innerText = description;
+
+	let basketBookId = response[id]['id'];
+	let basketBookName = response[id]['title'];
+	let basketBookPrice = response[id]['price'];
+
+	let addToCartButton = document.getElementById("addToCartButton");
+	addToCartButton.setAttribute('onclick', `addToCart(${basketBookId}, '${basketBookName}', ${basketBookPrice})`);
+
+
+
 }
 
 displayDetails();
