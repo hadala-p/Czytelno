@@ -45,9 +45,20 @@
         <link rel="stylesheet" href="../css/style.resposive.css">
     </head>
     <body>
-        <?php include 'header.html';?>
+        <?php include 'header.html';
+
+            if(isset($_SESSION['blad']))
+            {
+                echo $_SESSION['blad'];
+            }
+            unset($_SESSION['blad']);
+	    ?>
         <div class="row">
-            <form method="post">
+            <form method="post" action="../server/api_bookAdd.php">
+
+                <label for="category">Kategoria</label><br>
+                <input type="text" id="category" name="category" required><br>
+
                 <label for="title">Tytuł</label><br>
                 <input type="text" id="title" name="title" required><br>
 
@@ -67,13 +78,14 @@
                 <input type='text' id='price' name='price' required><br><br>
 
                 <label for='description'>Opis</label><br>
-                <input type='text' id='description' name='description' required><br><br>
+                <textarea id='description' name='description' rows='20' cols='100' required></textarea><br><br>
 
                 <label for='img'>Nazwa obrazka</label><br>
                 <input type='text' id='img' name='img' required><br><br>
 
                 <button type='submit'>Dodaj</button>
             </form>";
+            <a href="adminPanel.php"><button type="button">Powrót</button></a>
         </div>
     </body>
 </html>
