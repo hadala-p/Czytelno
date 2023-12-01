@@ -1,39 +1,3 @@
-<?php
-    session_start();
-    if(!isset($_SESSION['zalogowany']))
-    {
-      header("Location:loggin.php");
-      exit();
-    }
-    if($_SESSION['nick'] !== "admin")
-    {
-        header("Location:loggin.php");
-        exit();
-    }
-
-
-    require_once"connect.php";
-	mysqli_report(0);
-
-    $connection = @new mysqli($host,$db_user,$db_password,$db_name);
-
-    if($connection -> connect_errno)
-    {
-        echo "Failed to connect to MySQL: " . $connection -> connect_errno;
-    }
-    else
-    {
-		$login = $_SESSION['nick'];
-        $result = @$connection->query(sprintf("CALL getAddress('%s')",
-		mysqli_real_escape_string($connection,$login)));
-
-        if($result)
-	    {
-            $row = $result->fetch_assoc();
-        }
-
-    }
- ?>
 <!doctype html>
 <html lang="pl">
     <head>
@@ -77,6 +41,9 @@
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam consequat egestas luctus. Morbi et mauris augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Aenean at nunc nisi. Aliquam mauris tortor, iaculis sit amet luctus sit amet, varius et enim. Sed tristique, nulla ac ultricies euismod, lacus erat ornare lectus, id venenatis diam erat et risus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nunc eu dolor vel dui volutpat dignissim condimentum eu elit. In lacinia leo quis magna posuere accumsan. Nulla urna eros, interdum vitae laoreet nec, rutrum a risus. Curabitur consequat lobortis ligula vitae egestas. Nullam sed imperdiet tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
                     </div>
                 </div>
+                <button onclick="addToCart(<?php echo $book_id; ?>, '<?php echo $book_name; ?>', <?php echo $book_price; ?>)">
+                     Dodaj do koszyka
+                </button>
             </div>
 
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
