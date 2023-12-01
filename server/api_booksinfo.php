@@ -8,7 +8,7 @@
         die();
     }
 
-    $sql = 'CALL getAllBooks';
+    $sql = 'CALL getAllBooks()';
     $result = mysqli_query($connection, $sql);
 
     if(mysqli_connect_errno()) {

@@ -20,51 +20,13 @@
     <main class="col-md-8 col-lg-9 col-xl-10">
       <section class="recommended">
         <h1>Polecane</h1>
-        <div class="img-slider">
-          <div class="slide active">
-            <a href="#"><img src="img/fantasy.png" alt="Fantastyka"></a>
-            <div class="info">
-              <p>Fantastyka</p>
-            </div>
-          </div>
-          <div class="slide">
-            <img src="img/business.png" alt="Biznes">
-              <div class="info">
-                <p>Biznes</p>
-              </div>
-          </div>
-          <div class="slide">
-            <a href="#"><img src="img/travel&turism.png" alt="Podróże i Turystyka"></a>
-            <div class="info">
-              <p>Podróże i Turystyka</p>
-            </div>
-          </div>
-          <div class="slide">
-            <a href="#"><img src="img/languageLearning.png" alt="Nauka Języków"></a>
-            <div class="info">
-              <p>Nauka Języków</p>
-            </div>
-          </div>
-          <div class="slide">
-            <a href="#"><img src="img/ebooks.png" alt="E-Booki"></a>
-            <div class="info">
-              <p>E-Booki</p>
-            </div>
-          </div>
-          <div class="navigation">
-            <div class="btn active"></div>
-            <div class="btn"></div>
-            <div class="btn"></div>
-            <div class="btn"></div>
-            <div class="btn"></div>
-          </div>
-        </div>
+        <?php include 'elements/slider.html';?>
       </section>
       <section class="index_news">
         <h1>Nowości</h1>
         <div class="row" id="template-body">
                 <template id="car-template">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="card">
                             <div class="card-image">
                                 <img src="../img/books/Kwazar.png" class="responsive-img" id="template-preview-image" alt="Książka">
