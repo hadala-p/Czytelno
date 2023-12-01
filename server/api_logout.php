@@ -3,7 +3,7 @@
 
  session_unset();
 
- header('Location: loggin.php');
+ header('Location: ../elements/loggin.php');
 
 
  ?>

@@ -3,10 +3,10 @@
  session_start();
  if(!isset($_SESSION['zalogowany']))
 {
-  header("Location:loggin.php");
+  header("Location:../elements/loggin.php");
   exit();
 } 
-require_once"connect.php";
+require_once"../elements/connect.php";
 	mysqli_report(0);
 
     $connection = @new mysqli($host,$db_user,$db_password,$db_name);
@@ -35,14 +35,14 @@ require_once"connect.php";
                 {
                     $all_OK=false;
                     $_SESSION['blad']='<span style="color:red"><br>Nowe hasło powinno zawierać od 8 do 20znaków!<br></span>';
-                    header('Location:profile.php');
+                    header('Location:../elements/profile.php');
                 }
                 // sprawdzanie długości czy hasło są identyczne
                 if($password1!=$password2)
                 {
                     $all_OK=false;
                     $_SESSION['blad']='<span style="color:red"><br>Nowe hasła się różnią!<br></span>';
-                    header('Location:profile.php');
+                    header('Location:../elements/profile.php');
                 }
                 // haszowanie haseł
                 $password_hash=password_hash($password1,PASSWORD_DEFAULT);
@@ -53,7 +53,7 @@ require_once"connect.php";
                     if($connection->query("CALL SetPassword('$user', '$password_hash')"))
                     {
                         $_SESSION['blad']='<span style="color:green"><br>Zmieniono hasło<br></span>';
-                        header('Location: profile.php');
+                        header('Location:../elements/profile.php');
                     }
                     else
                     {
@@ -64,7 +64,7 @@ require_once"connect.php";
             else
             {
                 $_SESSION['blad']='<span style="color:red"><br>Nie prawidłowe stare hasło!<br></span>';
-                header('Location:profile.php');
+                header('Location:../elements/profile.php');
             }
 				
 		}

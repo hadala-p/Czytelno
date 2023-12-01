@@ -21,7 +21,7 @@
 <?php include 'header.html';?>
 <div class="containerlg">
 
-    <form class="fo" action="zaloguj.php" method="post">
+    <form class="fo" action="../server/api_zaloguj.php" method="post">
         <div class="imgcontainer">
             <img src="../img/user_avatar.png" alt="Avatar" class="avatar">
         </div>

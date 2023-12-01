@@ -51,15 +51,6 @@
             <div class="imgcontainer">
                 <img src="../img/user_avatar.png" alt="Avatar" class="avatar">
             </div>
-            <button class="s-psw" onclick="passwordChangeButton()">Zmień hasło</button>
-            <div id="change-passwd">
-            <form method="post" action="resetPassword.php">
-                <input type="password" placeholder="Wpisz obecne hasło" name="old_password" id="old_password" required>
-                <input type="password" placeholder="Wpisz nowe hasło" name="new_password_1" id="new_password_1" required>
-                <input type="password" placeholder="Powtórz nowe hasło" name="new_password_2" id="new_password_2" required>
-                <button type="submit">Wyślij nowe hasło</button>
-            </form>
-
             <?php
                 if(isset($_SESSION['blad']))
                 {
@@ -67,39 +58,46 @@
                 }
                 unset($_SESSION['blad']);
 	        ?>
+            <button class="s-psw" onclick="passwordChangeButton()">Zmień hasło</button>
+            <div id="change-passwd">
+                <form method="post" action="../server/api_resetPassword.php">
+                    <input type="password" placeholder="Wpisz obecne hasło" name="old_password" id="old_password" required>
+                    <input type="password" placeholder="Wpisz nowe hasło" name="new_password_1" id="new_password_1" required>
+                    <input type="password" placeholder="Powtórz nowe hasło" name="new_password_2" id="new_password_2" required>
+                    <button type="submit">Wyślij nowe hasło</button>
+                </form>
             </div>
             <button class="s-psw" onclick="addressChangeButton()">Dane Adresowe</button>
             <div id="change-address">
-            <?php
-                if($row === null)
-                {
-                    $row = [
-                        'street' => " ",
-                        'postcode' => " ",
-                        'city' => " ",
-                        'number' => " "
-                    ];
-                }
+                <?php
+                    if($row === null)
+                    {
+                        $row = [
+                            'street' => " ",
+                            'postcode' => " ",
+                            'city' => " ",
+                            'number' => " "
+                        ];
+                    }
  
-                echo "<form method=\"post\" action=\"changeAddress.php\">
-                        <label for=\"fname\">Ulica:</label><br>
-                        <input type=\"text\" id=\"street\" name=\"street\" required value=$row[street]><br>
+                    echo "<form method=\"post\" action=\"../server/api_changeAddress.php\">
+                            <label for=\"fname\">Ulica:</label><br>
+                            <input type=\"text\" id=\"street\" name=\"street\" required value=$row[street]><br>
 
-                        <label for='lname'>Numer:</label><br>
-                        <input type='text' id='number' name='number' required value=$row[number]><br>
+                            <label for='lname'>Numer:</label><br>
+                            <input type='text' id='number' name='number' required value=$row[number]><br>
 
-                        <label for='lname'>Kod pocztowy:</label><br>
-                        <input type='text' id='postcode' name='postcode' required value=$row[postcode]><br>
+                            <label for='lname'>Kod pocztowy:</label><br>
+                            <input type='text' id='postcode' name='postcode' required value=$row[postcode]><br>
 
-                        <label for='lname'>Miasto:</label><br>
-                        <input type='text' id='city' name='city' required value=$row[city]><br><br>
+                            <label for='lname'>Miasto:</label><br>
+                            <input type='text' id='city' name='city' required value=$row[city]><br><br>
 
-                        <button type='submit'>Edytuj</button>
-                    </form>";
-            ?>
-
+                            <button type='submit'>Edytuj</button>
+                        </form>";
+                ?>
             </div>
-            <a href="logout.php"><button type="button" class="logoutbtn">Wyloguj się</button></a>
+            <a href="../server/api_logout.php"><button type="button" class="logoutbtn">Wyloguj się</button></a>
         </div>
         <script src="../js/funkcje.js"></script>
     </body>

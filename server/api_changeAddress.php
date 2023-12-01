@@ -6,7 +6,7 @@
   header("Location:loggin.php");
   exit();
 } 
-require_once"connect.php";
+require_once"../elements/connect.php";
 	mysqli_report(0);
 
     $connection = @new mysqli($host,$db_user,$db_password,$db_name);
@@ -26,8 +26,8 @@ require_once"connect.php";
 
         if($result = @$connection->query(sprintf("CALL setAddress('%s', '%s', '%s', '%s', '%s')",$user, $street, $number, $postcode, $city)))
 		{
-            $_SESSION['blad']='<span style="color:green"><br>Zmieniono has³o<br></span>';
-            header('Location: profile.php');
+            $_SESSION['blad']='<span style="color:green"><br>Zmieniono dane adresowe<br></span>';
+            header('Location:../elements/profile.php');
 
 		}
         else

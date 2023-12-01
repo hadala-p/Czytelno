@@ -8,7 +8,7 @@
 		exit();
 	}
 
-    require_once"connect.php";
+    require_once"../elements/connect.php";
 	mysqli_report(0);
 
     $connection = @new mysqli($host,$db_user,$db_password,$db_name);
