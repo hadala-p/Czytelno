@@ -13,7 +13,7 @@ if (!isset($_SESSION['cart'])) {
         <link rel="stylesheet" href="../css/style.resposive.css">
     </head>
     <body>
-        <?php include 'header.html';?>
+        <?php include 'headerBookCard.php';?>
               <section>
             <div class="container" id="bookinfo">
                 <div class="row">
@@ -65,6 +65,7 @@ if (!isset($_SESSION['cart'])) {
             xhr.open("POST", "add_to_cart.php", true);
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhr.send("product_id=" + product_id + "&product_name=" + product_name + "&product_price=" + product_price);
+            location.reload();
         }
     </script>
     </body>

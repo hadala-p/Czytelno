@@ -4,7 +4,7 @@
             <div class="bookStoreLogo"><a href="index.php"><img src="img/logo.png" width="70" height="70" alt="bookStoreLogo"></a></div>
             <div class="bookStoreName"><a href="index.php">Czytelno</a></div>
         </div>
-        <div class="logoo col-sm-11 col-md-8">
+        <div class="logoo col-sm-8 col-md-8">
             <div class="search-container">
                 <form action="/action_page.php">
                     <input type="text" placeholder="Wpisz książkę.." name="search">
@@ -21,6 +21,7 @@
                         echo "<a href=''#'>Tytuł: ".$product['name']."<br> Ilość: ".$product['quantity']."<br>Cena: ".$product['price'] * $product['quantity']."</a>";
                     }
                 ?>
+                <p id="goToBasket"><a href="elements/basketCard.php"> Przejdź do koszyka</a></p>
             </div>
         </div>
     </div>
