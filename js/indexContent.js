@@ -17,7 +17,7 @@ async function drawContent() {
 
         instanceImage.src = response[i]['img'];
         instanceDesc.innerText = response[i]['title'];
-        reservationButton.href = "elements/book_card.php?id=" + response[i]["id"];
+        reservationButton.href = "elements/bookCard.php?id=" + response[i]["id"];
 
         tbody.appendChild(instance);
     }
