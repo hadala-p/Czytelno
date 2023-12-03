@@ -16,3 +16,9 @@ async function getOrdersInfoArray(requestPrefix = '') {
 
 	return json;
 }
+async function getUsersInfoArray(requestPrefix = '') {
+	let reponse = await fetch(requestPrefix + '../server/api_usersInfo.php');
+	let json = await reponse.json();
+
+	return json;
+}

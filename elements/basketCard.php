@@ -64,7 +64,7 @@
                 }
             }
             echo "<p id='basketSum'>Suma:".$sum." zł</p>";
-            ?><div class="buton_card"><button id="goToSummary" onclick="window.location.href='orderSummary.php'">Przejdź do Podsumowania</button></div>
+            ?><div class="button_card"><button id="goToSummary" onclick="window.location.href='orderSummary.php'">Przejdź do Podsumowania</button></div>
             <?php
         }
         else
