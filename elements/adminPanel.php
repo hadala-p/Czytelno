@@ -103,6 +103,7 @@
             </div>
             <a href="booksEditor.php"><button type="button" class="booksEditorbtn">Edytor książek</button></a>
             <a href="bookAdd.php"><button type="button" class="booksEditorbtn">Dodaj książkę</button></a>
+            <a href="orderStatusEditor.php"><button type="button" class="OrderStatusbtn">Edytuj status zamówienia</button></a>
             <a href="../server/api_logout.php"><button type="button" class="logoutbtn">Wyloguj się</button></a>
         </div>
         <script src="../js/funkcje.js"></script>

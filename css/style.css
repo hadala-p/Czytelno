@@ -654,3 +654,11 @@ buttonCard input[type=submit] {
 .orderAddress {
     text-align: center;
 }
+/*--------------------------------------> orderStatus */
+.orderStatusContainer{
+    margin: auto;
+    width: 80%;
+}
+.orderStatusContainer p{
+    border-bottom: 2px black solid;
+}

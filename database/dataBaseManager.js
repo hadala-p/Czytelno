@@ -10,3 +10,9 @@ async function getBookInfoArray(requestPrefix = '') {
 
 	return json;
 }
+async function getOrdersInfoArray(requestPrefix = '') {
+	let reponse = await fetch(requestPrefix + '../server/api_ordersinfo.php');
+	let json = await reponse.json();
+
+	return json;
+}
