@@ -608,7 +608,7 @@ span.psw
     margin: 5%;
 }
 #basketSum {
-    font-size: 20px;
+    font-size: 30px;
     text-align: center;
     margin: 10px;
 }
@@ -620,4 +620,37 @@ span.psw
     text-align: center;
     margin: auto;
 }
-
+#goToSummary {
+    width: 300px;
+    background-color: rgb(98,179,176);
+    text-align: center;
+    margin: auto;
+    padding: 20px;
+}
+.buttonCard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+buttonCard input[type=submit] {
+    background-color: red;
+}
+/*--------------------------------------> orderSummary */
+.orderSummaryBooks {
+    text-align: center;
+}
+.orderSummaryBooks img {
+    width: 50px;
+    margin: 5px;
+}
+.pad {
+    padding: 20px;
+}
+#orderAddressHeader {
+    text-align: center;
+    font-size: 35px;
+}
+.orderAddress {
+    text-align: center;
+}
