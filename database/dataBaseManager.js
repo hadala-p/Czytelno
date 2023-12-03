@@ -22,3 +22,4 @@ async function getUsersInfoArray(requestPrefix = '') {
 
 	return json;
 }
+
