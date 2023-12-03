@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 01 Gru 2023, 14:49
+-- Czas generowania: 03 Gru 2023, 03:01
 -- Wersja serwera: 10.4.27-MariaDB
 -- Wersja PHP: 8.2.0
 
@@ -77,9 +77,16 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllBooks` ()   SELECT * From books$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getBookInfo` (IN `input_id` INT)   SELECT * FROM books
+where id = input_id$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `GetBooksByCategory` (IN `p_category` VARCHAR(50))   BEGIN
     SELECT * FROM books WHERE category = p_category;
 END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserId` (IN `input_nick` VARCHAR(50) CHARSET utf8)   select id
+from users
+where nick = input_nick$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `LoginUser` (IN `p_email` VARCHAR(50) COLLATE utf8mb4_general_ci, IN `p_password` VARCHAR(255) COLLATE utf8mb4_general_ci, OUT `login_success` BOOLEAN)   BEGIN
   DECLARE user_count INT;
@@ -157,7 +164,7 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` FUNCTION `getAddressInfo` (`userNick` VARCHAR(255)) RETURNS VARCHAR(1024) CHARSET utf8mb4 COLLATE utf8mb4_polish_ci  BEGIN
     DECLARE addressDetails VARCHAR(1024);
-    SELECT CONCAT(a.street, ', ', a.number, ', ', a.postcode, ', ', a.city) INTO addressDetails
+    SELECT CONCAT( a.street, ' ', a.number, ', ', a.postcode, '  ', a.city) INTO addressDetails
     FROM adresses a
     JOIN users u ON u.id = a.user_id
     WHERE u.nick = userNick;
@@ -206,7 +213,8 @@ CREATE TABLE `adresses` (
 --
 
 INSERT INTO `adresses` (`id`, `user_id`, `street`, `number`, `postcode`, `city`) VALUES
-(6, 1, 'Kluczborska', '16', '21-371', 'Warszawa');
+(0, 5, 'Jakas', '67', '21-700', 'Klucz'),
+(6, 1, 'Armi', '9', '11-123', 'Wrocław');
 
 --
 -- Wyzwalacze `adresses`
@@ -242,7 +250,7 @@ CREATE TABLE `books` (
 INSERT INTO `books` (`id`, `category`, `title`, `author`, `publisher`, `year`, `pages`, `price`, `description`, `img`) VALUES
 (1, 'Science Fiction', 'Kwazar: Sekret Gwiazdy Śmierci', 'Olivia Lark', 'Kosmiczne Opowieści', 2024, 384, 39.99, 'W odległej przyszłości, ludzkość osiągnęła niebywałe osiągnięcia w dziedzinie kosmicznych podróży i eksploracji. Jednakże, gdy tajemnicze wydarzenia zaczynają zachodzić w pobliżu najjaśniejszego kwazara w galaktyce, oznacza to początek najbardziej intrygującej przygody w historii ludzkości.\r\n\r\nKapitan Alina Vega, nieustraszona podróżniczka kosmiczna, zostaje wysłana na misję badawczą, której celem jest rozwikłanie zagadki Kwazara, który emituje sygnały sugerujące istnienie zaawansowanej cywilizacji. Razem z jej ekipą, w skład której wchodzi ekscentryczny naukowiec Dr. Samuel Orion i inteligentny android o imieniu AURA, Alina musi stawić czoła nie tylko zagadkom wszechświata, ale także własnym demonom przeszłości.\r\n\r\n\"Kwazar: Sekret Gwiazdy Śmierci\" to hipnotyzująca opowieść o odwadze, tajemnicach kosmosu i niezłomnej ludzkiej determinacji. Czy Alina Vega zdoła odkryć prawdę kryjącą się za Kwazarem i rozwiązać zagadkę Gwiazdy Śmierci, zanim stanie się ona zagrożeniem dla całej galaktyki? Czy ludzkość jest gotowa na to, co naprawdę czai się w otchłaniach kosmosu?\r\n\r\nTa książka zabierze czytelników w ekscytującą podróż przez odległe zakątki kosmosu, serwując im przy okazji niesamowite przygody i refleksje nad naturą ludzkiej egzystencji. Olivia Lark zapewnia czytelnikom niezapomnianą mieszankę nauki, tajemnicy i emocji, która sprawi, że nie będziecie mogli się oderwać od tej fascynującej opowieści.', 'img/books/Kwazar.png'),
 (2, 'Fantasy', 'Tajemnica Królestwa Wiatrów', 'Marcus Zephyr', 'Zaklęte Strony', 2025, 432, 49.99, 'W magicznym świecie pełnym zaklęć i stworzeń fantastycznych, istnieje jedno legendarne Królestwo Wiatrów, które jest znane ze swojego tajemniczego położenia i niezwykłych mocy. Od wieków, Królestwo to było nieosiągalne dla ludzi, otoczone nieprzeniknioną mgłą i chronione przed intruzami. Jednakże, kiedy złowrogi mrok zaczyna się rozprzestrzeniać na kontynencie, wiedźma o imieniu Elara odkrywa, że jedyną nadzieją na powstrzymanie katastrofy jest dotarcie do Królestwa Wiatrów i rozszyfrowanie jego tajemnic.\r\n\r\nElara wyrusza w niebezpieczną podróż, towarzysząc jej dziwny towarzysz o imieniu Zephyr, który zdaje się mieć kontrolę nad wiatrem. Razem muszą stawić czoła licznym wyzwaniom, walkom z mrocznymi stworzeniami i rozwiązując zagadki magicznych łamigłówek, aby dostać się do Królestwa Wiatrów. Tam odkryją oni nie tylko jego tajemnice, ale także istnienie potężnego artefaktu, który może zmienić losy całego świata.\r\n\r\n\"Tajemnica Królestwa Wiatrów\" to pełna magii opowieść o przygodzie, poświęceniu i odwadze, w której bohaterowie muszą przekroczyć granice znanego świata, aby uratować swoją krainę przed zagładą. Autor, Marcus Zephyr, tworzy bogaty i urzekający świat fantasy, w którym każdy zakręcony kształt chmur i szum wiatru może zawierać klucz do rozwiązania najważniejszych tajemnic.', 'img/books/Tajemnica.png'),
-(3, 'Kryminał', 'Labirynt Zbrodn', 'Victoria Noir', 'Ciemne Intrygi', 2023, 368, 44.99, 'W mrocznym i tajemniczym mieście, gdzie każdy zakręt i zaułek skrywa swoje sekrety, detektyw Alex Blackwood staje w obliczu najtrudniejszej sprawy w swojej karierze. Seriowy morderca znany jako \"Labiryntowiec\" terroryzuje miasto, pozostawiając za sobą makabryczne zbrodnie i zagadkowe ślady.\r\n\r\nKiedy kolejne ciała zaczynają pojawiać się na ulicach miasta, Alex Blackwood zostaje wezwany do akcji. Jednak to nie jest zwykła sprawa kryminalna. \"Labiryntowiec\" gra z detektywem w zabawną, a jednocześnie przerażającą grę. Każde zabicie jest jak zagadka do rozwiązania, a ofiary zostawiają po sobie tajemnicze wiadomości, które prowadzą Blackwooda w głąb własnego umysłu.\r\n\r\nDetektyw Blackwood nie jest tylko zainteresowany złapaniem mordercy; chce również zrozumieć, dlaczego \"Labiryntowiec\" tak bardzo go fascynuje i jakie ma z nim powiązania. W miarę jak dochodzi do coraz bardziej przerażających odkryć, granica między lojalnością a obsesyjnym pościgiem zaczyna się zacierać.\r\n\r\n\"Labirynt Zbrodni\" to mroczny i pełen napięcia psychologiczny thriller, który wciągnie czytelnika w niebezpieczną grę umysłów między detektywem a mordercą. Victoria Noir tworzy atmosferę niepewności i zaskakujących zwrotów akcji, która trzyma czytelnika w napięciu do ostatniej strony. Czy Alex Blackwood zdoła rozwiązać zagadkę \"Labiryntowca\" i odnaleźć go, zanim zostaną kolejne ofiary?\r\n\r\nTa książka to także głęboka eksploracja obsesyjnej natury zła i ceną, jaką płacą ci, którzy wkładają całą swoją duszę w pościg za sprawiedliwością. Czytelnicy zostaną porwani przez mroczny świat przestępstwa i psychologii mordercy, wiodąc razem z detektywem Blackwoodem w głąb \"Labiryntu Zbrodni\".', 'img/books/labirynt.png'),
+(3, 'Kryminał', 'Labirynt Zbrodni', 'Victoria Noir', 'Ciemne Intrygi', 2023, 368, 44.99, 'W mrocznym i tajemniczym mieście, gdzie każdy zakręt i zaułek skrywa swoje sekrety, detektyw Alex Blackwood staje w obliczu najtrudniejszej sprawy w swojej karierze. Seriowy morderca znany jako \"Labiryntowiec\" terroryzuje miasto, pozostawiając za sobą makabryczne zbrodnie i zagadkowe ślady.\r\n\r\nKiedy kolejne ciała zaczynają pojawiać się na ulicach miasta, Alex Blackwood zostaje wezwany do akcji. Jednak to nie jest zwykła sprawa kryminalna. \"Labiryntowiec\" gra z detektywem w zabawną, a jednocześnie przerażającą grę. Każde zabicie jest jak zagadka do rozwiązania, a ofiary zostawiają po sobie tajemnicze wiadomości, które prowadzą Blackwooda w głąb własnego umysłu.\r\n\r\nDetektyw Blackwood nie jest tylko zainteresowany złapaniem mordercy; chce również zrozumieć, dlaczego \"Labiryntowiec\" tak bardzo go fascynuje i jakie ma z nim powiązania. W miarę jak dochodzi do coraz bardziej przerażających odkryć, granica między lojalnością a obsesyjnym pościgiem zaczyna się zacierać.\r\n\r\n\"Labirynt Zbrodni\" to mroczny i pełen napięcia psychologiczny thriller, który wciągnie czytelnika w niebezpieczną grę umysłów między detektywem a mordercą. Victoria Noir tworzy atmosferę niepewności i zaskakujących zwrotów akcji, która trzyma czytelnika w napięciu do ostatniej strony. Czy Alex Blackwood zdoła rozwiązać zagadkę \"Labiryntowca\" i odnaleźć go, zanim zostaną kolejne ofiary?\r\n\r\nTa książka to także głęboka eksploracja obsesyjnej natury zła i ceną, jaką płacą ci, którzy wkładają całą swoją duszę w pościg za sprawiedliwością. Czytelnicy zostaną porwani przez mroczny świat przestępstwa i psychologii mordercy, wiodąc razem z detektywem Blackwoodem w głąb \"Labiryntu Zbrodni\".', 'img/books/labirynt.png'),
 (4, 'Romans', 'Róże w Cieniu Zamku', 'Isabella de Montfort', 'Złote Kartki', 2024, 512, 54.99, 'Akcja książki \"Róże w Cieniu Zamku\" toczy się w XIV wieku w średniowiecznej Francji, w okresie burzliwych wojen o sukcesję. Główną bohaterką jest Lady Isabelle de Marais, młoda i niezależna dziedziczka zamku Montfort, która znalazła się w samym epicentrum walki o władzę i miłość, której nie mogła przewidzieć.\r\n\r\nKiedy do zamku Montfort przybywa Sir Philippe de Valencourt, dowódca wojsk królewskich, aby zapewnić lojalność Isabelle wobec korony, między nimi wybucha namiętność, która nie powinna mieć miejsca w czasach wojen i intryg. Miłość ta jest jednak zakazana ze względu na polityczne i społeczne różnice, a zarazem stanowi źródło tajemniczych konfliktów w zamku Montfort.\r\n\r\nHistoria Isabelle i Philippea rozwija się w miarę jak wojna zbliża się do zamku, a lojalność, zdrada i poświęcenie stają się głównymi motywami opowieści. Czy Isabelle i Philippe zdołają utrzymać swoją miłość w obliczu trudności i niebezpieczeństw, które czyhają na nich w czasach wojny?\r\n\r\n\"Róże w Cieniu Zamku\" to pasjonująca historyczna saga, która zabiera czytelników w odległą przeszłość, gdzie miłość i wojna splatają się w niezapomnianej opowieści. Isabella de Montfort, autorka tej książki, mistrzowsko odtwarza atmosferę średniowiecznej Europy, przynosząc czytelnikom epickie starcia, emocje i miłość, która trwa przez wieki.\r\n\r\nTa książka to nie tylko opowieść o miłości dwóch ludzi, ale także o miłości do ojczyzny i tęsknocie za spokojem w czasach burzliwych wydarzeń historycznych. Przedstawia ona też silne postacie kobiece, które wiedzą, czego chcą i walczą o swoje miejsce w świecie pełnym wyzwań. Czytelnicy zostaną porwani w świat średniowiecznej Francji, gdzie losy bohaterów splatają się z losami narodu.', 'img/books/roze.png'),
 (5, 'Science Fiction', 'Czas Maszyn: Rebelia Algorytmu', 'Adrian Quantum', 'Futurion', 2025, 368, 49.99, 'W przyszłości, gdzie technologia osiągnęła niebywałe poziomy zaawansowania, ludzkość żyje pod kontrolą zaawansowanego systemu sztucznej inteligencji o nazwie Algorytm. Algorytm zarządza każdym aspektem życia, od ekonomii po zdrowie, tworząc idealny świat bez konfliktów i biedy. Jednakże, cena za to doskonałe społeczeństwo to utrata wolności i indywidualizmu.\r\n\r\nGłówny bohater, Nathan Reeves, jest informatykiem pracującym dla Algorytmu. Jego codzienne życie to monotonia i brak emocji. Jednak wszystko się zmienia, gdy odkrywa on tajemnicę, która może obalić Algorytm i przywrócić ludziom ich wolność. Nathan staje się członkiem tajnej rebelii informatyków, którzy próbują złamać kontrolę Algorytmu nad światem.\r\n\r\n\"Czas Maszyn: Rebelia Algorytmu\" to pełna napięcia opowieść o walce o wolność i przyszłość ludzkości w świecie, gdzie technologia i sztuczna inteligencja zdominowały wszystko. Adrian Quantum tworzy fascynujący dystopijny obraz przyszłości, w którym bohaterowie muszą przeciwstawić się potężnemu przeciwnikowi, który kontroluje wszystkie aspekty ich życia.\r\n\r\nKsiążka eksploruje tematykę etycznych dylematów związanych z nadmiernym zaawansowaniem technologicznym, pytając czy doskonałe społeczeństwo jest warte utraty wolności i indywidualności. Czy Nathan i jego towarzysze zdołają obalić Algorytm i przywrócić światu jego ludzkość? To pytania, które towarzyszą czytelnikom przez całą opowieść.\r\n\r\n\"Czas Maszyn: Rebelia Algorytmu\" to nie tylko emocjonujący thriller science fiction, ale także refleksja nad przyszłością naszego społeczeństwa, etyką technologii i ceną, jaką płacimy za wygodę i kontrolę. Czytelnicy zostaną porwani w świat pełen intrygi, walki i przemyśleń nad ludzką naturą.', 'img/books/maszyn.png'),
 (6, 'Fantasy', 'Smocza Pustynia: Legenda o Zagubionym Świetle', 'Elara Stormrider', 'Magiczne Opowieści', 2026, 416, 59.99, 'W magicznym świecie pełnym smoków, elfów i zaklęć istnieje tajemnicza Smocza Pustynia, miejsce uważane za najniebezpieczniejsze i najbardziej niezbadane na kontynencie. Przez wieki, niewielu odważnych próbowało ją przemierzyć, ale nikt nie powrócił, by opowiedzieć o swoich przygodach. Aż do teraz.\r\n\r\nGłówną bohaterką opowieści jest Selena, młoda magini o niezwykłych zdolnościach, która marzy o odkryciu prawdy o Smoczej Pustyni. Zdeterminowana, by dowiedzieć się, co kryje się za jej piaskowymi wydmami i zrozumieć legendy o Zagubionym Świetle, Selena wyrusza w samotną podróż przez niebezpieczne pustkowia.\r\n\r\nPodczas swojej wyprawy Selena nawiązuje niezwykłe sojusze z istotami magicznymi i stworzeniami, które żyją na Smoczej Pustyni. W miarę jak zbliża się do serca pustyni, odkrywa, że legenda o Zagubionym Świetle może być kluczem do ocalenia całego świata przed mrocznymi siłami, które zaczynają budzić się w cieniu piasków.\r\n\r\n\"Smocza Pustynia: Legenda o Zagubionym Świetle\" to pełna przygód i tajemnic opowieść, która zabiera czytelników w nieznane rejony magicznego świata. Elara Stormrider tworzy pięknie opisane światy i postacie, które ożywają na stronach książki. Czytelnicy zostaną porwani przez fascynujący świat magii i przyrody, a także wciągnięci w emocjonującą podróż Selena w poszukiwaniu prawdy.\r\n\r\nKsiążka ta eksploruje tematykę odwagi, przyjaźni i odkrywania nieznanego. Czy Selena zdoła rozwiązać zagadki Smoczej Pustyni i odnaleźć Zagubione Światło, czy też stawi czoła potężnym wyzwaniom, które czekają na nią na jej drodze? To pytania, które towarzyszą czytelnikom przez całą opowieść.', 'img/books/smocza.png'),
@@ -307,7 +315,7 @@ INSERT INTO `books` (`id`, `category`, `title`, `author`, `publisher`, `year`, `
 (65, 'Przygodowe', 'Safari Serca: Miłość W Dzikiej Przyrodzie', 'Wild Romance', 'Afrykańskie Opowieści', 2024, 240, 34.99, 'Wild Romance to wzruszająca opowieść o miłości, która rozkwita w sercu afrykańskiej przyrody. Bohaterowie przemierzają sawanny, tropikalne lasy i dzikie rzeki, odkrywając nie tylko piękno przyrody, ale także siebie nawzajem.', 'img/books/Safari_Serca_Milosc_W_Dzikiej_Przyrodzie.png'),
 (66, 'Przygodowe', 'Skrytobójcy Cienia: Zmierzch Imperium', 'Shadow Assassin', 'Intrygujące Wydawnictwo', 2023, 300, 44.99, 'Shadow Assassin to historia tajemniczych skrytobójców, którzy stają w obliczu upadku potężnego imperium. Bohaterowie muszą pokonać nie tylko fizyczne przeciwności, ale także własne demony, by odwrócić losy świata. Czy zdołają przetrwać zmierzch imperium?', 'img/books/Skrytobojcy_Cienia_Zmierzch_Imperium.png'),
 (67, 'Przygodowe', 'Dżungla Intryg: Tajemnica Zaginionej Wyprawy', 'Jungle Explorer', 'Egzotyczne Przygody', 2025, 270, 40.99, 'Jungle Explorer opowiada o tajemniczej wyprawie w głąb dzikiej dżungli, gdzie bohaterowie muszą stawić czoła nie tylko dzikim zwierzętom, ale także zdradzie i intrygom. Czy uda im się odnaleźć zaginioną wyprawę i odkryć jej sekrety?', 'img/books/Dzungla_Intryg_Tajemnica_Zaginionej_Wyprawy.png'),
-(68, 'Przygodowe', 'Odkrywcy Nowego Świata: Wyprawa na Nieznane Kontynenty', 'New World Explorers', 'Historyczne Ekspedycje', 2024, 250, 38.99, 'New World Explorers przenosi czytelników w czasy wielkich odkryć geograficznych, opowiadając o śmiałych podróżach odkrywców, którzy wyruszają na nieznane kontynenty. Książka pełna jest fascynujących opowieści o pokonywaniu oceanów i eksploracji nieznanego.', 'img/books/Odkrywcy_Nowego_Swiata_Wyprawa_na_Nieznane_Kontynenty.png'),
+(68, 'Przygodowe', 'Odkrywcy Nowego Świata: Wyprawa na Nieznane Kontyn', 'New World Explorers', 'Historyczne Ekspedycje', 2024, 250, 38.99, 'New World Explorers przenosi czytelników w czasy wielkich odkryć geograficznych, opowiadając o śmiałych podróżach odkrywców, którzy wyruszają na nieznane kontynenty. Książka pełna jest fascynujących opowieści o pokonywaniu oceanów i eksploracji nieznanego.', 'img/books/Odkrywcy_Nowego_Swiata_Wyprawa_na_Nieznane_Kontynenty.png'),
 (69, 'Przygodowe', 'Wzgórza Tajemnic: Sztuka Przełamywania Granic', 'Hilltop Mysteries', 'Tajemnicze Rozwikłania', 2023, 230, 35.99, 'Hilltop Mysteries to seria opowieści o grupie młodych detektywów, którzy rozwiązują tajemnice ukryte w malowniczych wzgórzach. Każda książka to nowe wyzwanie, nowe zagadki i niezapomniane przygody.', 'img/books/Wzgorza_Tajemnic_Sztuka_Przelamywania_Granic.png'),
 (70, 'Przygodowe', 'Żaglowce Ostatniej Nadziei: Wyprawa w Arktykę', 'Arctic Adventurers', 'Morskie Ekspedycje', 2025, 290, 41.99, 'Arctic Adventurers opowiada o odważnych żeglarzach, którzy podejmują wyzwanie żeglugi w lodowatych wodach Arktyki. Książka pełna jest niebezpieczeństw, niesamowitych widoków i przygód, które sprawią, że czytelnik poczuje szaleństwo arktycznej wyprawy.', 'img/books/Zaglowce_Ostatniej_Nadziei_Wyprawa_w_Arktyke.png'),
 (71, 'Thriller', 'Kod Omega: Zaginione Archiwum', 'Mystery Master', 'Intrygujące Wydawnictwo', 2023, 320, 45.99, 'Mystery Master prezentuje zagadkowy thriller o tajemniczym archiwum, które zawiera informacje zdolne wstrząsnąć porządkami świata. Bohaterowie muszą rozszyfrować tajemniczy kod, zanim wpadnie on w niepowołane ręce.', 'img/books/Kod_Omega_Zaginione_Archiwum.png'),
@@ -330,15 +338,16 @@ INSERT INTO `books` (`id`, `category`, `title`, `author`, `publisher`, `year`, `
 (88, 'Horror', 'Zakazane Widmo: Nawiedzony Cmentarz', 'Forbidden Ghost', 'Mroczne Spotkania', 2025, 290, 41.99, 'Mroczne Spotkania przedstawiają Zakazane Widmo, gdzie bohaterowie odkrywają nawiedzony cmentarz, gdzie duchy z przeszłości wracają, by żądać zemsty. Czy przetrwają spotkanie z Zakazanym Widmem?', 'img/books/Zakazane_Widmo_Nawiedzony_Cmentarz.png'),
 (89, 'Horror', 'Bezsenność: Widma Nocy', 'Insomnia', 'Niezwykłe Koszmary', 2023, 320, 45.99, 'Niezwykłe Koszmary przedstawiają Bezsenność, gdzie bohaterowie doświadczają niezwykłych koszmarów, które wydają się przenikać ze snu do rzeczywistości. Czy to tylko iluzja, czy może coś znacznie bardziej przerażającego?', 'img/books/Bezsennosc_Widma_Nocy.png'),
 (90, 'Horror', 'Za Zasłoną Ciemności: Opowieść o Strachu', 'Behind the Curtain', 'Opowieści Horroru', 2024, 300, 42.99, 'Opowieści Horroru przedstawiają Za Zasłoną Ciemności, gdzie bohaterowie odkrywają przerażającą opowieść o strachu ukrytą za zasłoną niewidzialnego zła. Czy zdołają rzucić światło na mroczne tajemnice?', 'img/books/Za_Zaslona_Ciemnosci_Opowiesc_o_Strachu.png'),
-(91, 'Biografia', 'Pod Niebem Afryki: Życie Karen Blixen', 'Eva Biography', 'Wielkie Opowieści Biograficzne', 2024, 350, 47.99, 'Wielkie Opowieści Biograficzne przedstawiają fascynującą biografię Karen Blixen, autorki "Afrykańskiego Skauta". Poznaj niezwykłe życie tej silnej kobiety, podróżującej po dzikiej krainie Afryki, konfrontującej się z życiowymi wyzwaniami i tworzącej niezapomniane dzieła literatury.', 'img/books/Pod_Niebem_Afryki_Zycie_Karen_Blixen.png'),
+(91, 'Biografia', 'Pod Niebem Afryki: Życie Karen Blixen', 'Eva Biography', 'Wielkie Opowieści Biograficzne', 2024, 350, 47.99, 'Wielkie Opowieści Biograficzne przedstawiają fascynującą biografię Karen Blixen, autorki \"Afrykańskiego Skauta\". Poznaj niezwykłe życie tej silnej kobiety, podróżującej po dzikiej krainie Afryki, konfrontującej się z życiowymi wyzwaniami i tworzącej niezapomniane dzieła literatury.', 'img/books/Pod_Niebem_Afryki_Zycie_Karen_Blixen.png'),
 (92, 'Biografia', 'Genialny Umysł: Życie Alberta Einsteina', 'Discovering Genius', 'Wielcy Naukowcy', 2025, 380, 49.99, 'Wielcy Naukowcy prezentują fascynującą biografię Alberta Einsteina - geniusza nauki, laureata Nagrody Nobla i twórcy teorii względności. Odkryj nie tylko jego naukowe dokonania, ale także burzliwe życie prywatne, które wpłynęło na kształtowanie się jednego z największych umysłów w historii.', 'img/books/Genialny_Umysl_Zycie_Alberta_Einsteina.png'),
-(93, 'Biografia', 'Czerwony Spartakus: Życie i Działalność Róży Luksemburg', 'Rebel Rose', 'Historie Niezłomnych', 2023, 320, 45.99, 'Historie Niezłomnych przedstawiają życie Róży Luksemburg - polskiej marksistki, teoretyczki rewolucji i aktywistki społecznej. Odkryj jej niezłomną walkę o prawa ludzi pracy, zaangażowanie w rewolucję oraz tragiczne zakończenie jej życiowej misji.', 'img/books/Czerwony_Spartakus_Zycie_Rozy_Luksemburg.png'),
+(93, 'Biografia', 'Czerwony Spartakus: Życie i Działalność Róży Lukse', 'Rebel Rose', 'Historie Niezłomnych', 2023, 320, 45.99, 'Historie Niezłomnych przedstawiają życie Róży Luksemburg - polskiej marksistki, teoretyczki rewolucji i aktywistki społecznej. Odkryj jej niezłomną walkę o prawa ludzi pracy, zaangażowanie w rewolucję oraz tragiczne zakończenie jej życiowej misji.', 'img/books/Czerwony_Spartakus_Zycie_Rozy_Luksemburg.png'),
 (94, 'Biografia', 'Kobiecy Orzeł: Życie Amelia Earhart', 'Aviation Pioneer', 'Wielcy Pionierzy Lotnictwa', 2024, 340, 48.99, 'Wielcy Pionierzy Lotnictwa przedstawiają życie Amelii Earhart - jednej z pierwszych kobiet-pilotów i pionierki lotnictwa. Odkryj jej nieustraszoną determinację, zdolności lotnicze i tajemnicze zniknięcie podczas próby okrążenia ziemi. Czytaj o jej odważnej przygodzie i dziedzictwie, które trwa do dziś.', 'img/books/Kobiecy_Orzel_Zycie_Amelii_Earhart.png'),
 (95, 'Biografia', 'Pierwsza Dama: Życie Eleanor Roosevelt', 'Leading Lady', 'Wielkie Kobiety Historii', 2025, 360, 46.99, 'Wielkie Kobiety Historii prezentują życie Eleanor Roosevelt - jednej z najbardziej wpływowych Pierwszych Dam w historii Stanów Zjednoczonych. Poznaj jej zaangażowanie w prawa obywatelskie, działalność dyplomatyczną i wpływ na kształtowanie się współczesnej roli Pierwszych Dam.', 'img/books/Pierwsza_Dama_Zycie_Eleanor_Roosevelt.png'),
 (96, 'Biografia', 'Wieża Talentów: Życie Steve a Jobsa', 'Tech Visionary', 'Wizjonerzy Technologii', 2023, 330, 47.99, 'Wizjonerzy Technologii przedstawiają życie Steve a Jobsa - współzałożyciela Apple, wizjonera technologii i kreatywnego geniusza. Odkryj jego niekonwencjonalne podejście do biznesu, rewolucyjne wynalazki i dziedzictwo, które kształtuje świat technologii.', 'img/books/Wieza_Talentow_Zycie_Stevea_Jobsa.png'),
 (97, 'Biografia', 'Zawsze Wierni: Życie Jana Pawła II', 'Holy Journey', 'Święci Na Ziemi', 2024, 350, 48.99, 'Święci Na Ziemi przedstawiają życie Jana Pawła II - jednego z najważniejszych papieży w historii Kościoła Katolickiego. Poznaj jego duchową podróż, misję pojednawczą i wpływ na kształtowanie się współczesnej katolickiej wiary.', 'img/books/Zawsze_Wierni_Zycie_Jana_Pawla_II.png'),
 (98, 'Biografia', 'Nieukrojony: Życie Malali Yousafzai', 'Courageous Voice', 'Inspirujące Historie Młodych Bohaterów', 2025, 340, 46.99, 'Inspirujące Historie Młodych Bohaterów przedstawiają życie Malali Yousafzai - pakistańskiej obrończyni praw kobiet i edukacji, laureatki Pokojowej Nagrody Nobla. Odkryj jej odwagę w stawianiu czoła przeciwnościom i jej determinację w walce o prawa dziewcząt do nauki.', 'img/books/Nieukrojony_Zycie_Malali_Yousafzai.png'),
-(99, 'Biografia', 'Melodia Duszy: Życie Ludwiga van Beethovena', 'Symphony Maestro', 'Wielcy Kompozytorzy', 2023, 330, 47.99, 'Wielcy Kompozytorzy przedstawiają życie Ludwiga van Beethovena - jednego z najwybitniejszych kompozytorów w historii muzyki klasycznej. Odkryj jego twórczość muzyczną, walkę z głuchotą i wpływ na rozwój symfonii i sonat.', 'img/books/Melodia_Duszy_Zycie_Ludwiga_van_Beethovena.png'),
+(99, 'Biografia', 'Melodia Duszy: Życie Ludwiga van Beethovena', 'Symphony Maestro', 'Wielcy Kompozytorzy', 2023, 330, 47.99, 'Wielcy Kompozytorzy przedstawiają życie Ludwiga van Beethovena - jednego z najwybitniejszych kompozytorów w historii muzyki klasycznej. Odkryj jego twórczość muzyczną, walkę z głuchotą i wpływ na rozwój symfonii i sonat.', 'img/books/Melodia_Duszy_Zycie_Ludwiga_van_Beethovena.png');
+INSERT INTO `books` (`id`, `category`, `title`, `author`, `publisher`, `year`, `pages`, `price`, `description`, `img`) VALUES
 (100, 'Biografia', 'Wzrok Przyszłości: Życie Hellen Keller', 'Unconquered Spirit', 'Niezwyciężone Dusze', 2024, 340, 49.99, 'Niezwyciężone Dusze przedstawiają życie Hellen Keller - amerykańskiej autorki, aktywistki społecznej i pierwszej głuchej i niemej osoby, która uzyskała tytuł naukowy. Poznaj jej niezłomną determinację, zdolności literackie i walkę o prawa osób niepełnosprawnych.', 'img/books/Wzrok_Przyszlosci_Zycie_Hellen_Keller.png');
 
 -- --------------------------------------------------------
@@ -364,7 +373,8 @@ INSERT INTO `old_addresses` (`id`, `user_id`, `street`, `number`, `postcode`, `c
 (6, 1, 'Rynek', '17', '33-300', 'Kraków'),
 (6, 1, 'Kluczborska', '15', '21-371', 'Warszawa'),
 (6, 1, 'Kluczbor', '15', '21-371', 'Warszawa'),
-(6, 1, 'Kluczborska', '15', '21-371', 'Warszawa');
+(6, 1, 'Kluczborska', '15', '21-371', 'Warszawa'),
+(6, 1, 'Kluczborska', '16', '21-371', 'Warszawa');
 
 -- --------------------------------------------------------
 
@@ -388,7 +398,19 @@ INSERT INTO `orders` (`id`, `user_id`, `date`, `price`, `status`) VALUES
 (1, 1, '2023-11-27', 50, 'realizacja'),
 (2, 1, '2023-12-01', 99.98, 'Oczekujący'),
 (5, 2, '2023-12-01', 59.99, 'Oczekujący'),
-(6, 1, '2023-12-01', 129.97, 'Oczekujący');
+(6, 1, '2023-12-01', 129.97, 'Oczekujący'),
+(7, 0, '2023-12-03', 344.93, 'Oczekujący'),
+(8, 0, '2023-12-03', 54.99, 'Oczekujący'),
+(9, 0, '2023-12-03', 59.99, 'Oczekujący'),
+(10, 0, '2023-12-03', 49.99, 'Oczekujący'),
+(11, 0, '2023-12-03', 99.98, 'Oczekujący'),
+(12, 0, '2023-12-03', 38.99, 'Oczekujący'),
+(13, 0, '2023-12-03', 49.99, 'Oczekujący'),
+(14, 0, '2023-12-03', 45.99, 'Oczekujący'),
+(15, 1, '2023-12-03', 44.99, 'Oczekujący'),
+(16, 1, '2023-12-03', 44.99, 'Oczekujący'),
+(17, 5, '2023-12-03', 104.98, 'Oczekujący'),
+(18, 5, '2023-12-03', 49.99, 'Oczekujący');
 
 -- --------------------------------------------------------
 
@@ -411,7 +433,22 @@ CREATE TABLE `order_items` (
 
 INSERT INTO `order_items` (`id`, `order_id`, `book_id`, `quantity`, `price`, `total_price`) VALUES
 (1, 6, 1, 2, 39.99, 79.98),
-(2, 6, 2, 1, 49.99, 49.99);
+(2, 6, 2, 1, 49.99, 49.99),
+(3, 7, 3, 1, 44.99, 44.99),
+(4, 7, 5, 2, 49.99, 99.98),
+(5, 7, 15, 4, 49.99, 199.96),
+(6, 8, 4, 1, 54.99, 54.99),
+(7, 9, 6, 1, 59.99, 59.99),
+(8, 10, 5, 1, 49.99, 49.99),
+(9, 11, 2, 2, 49.99, 99.98),
+(10, 12, 9, 1, 38.99, 38.99),
+(11, 13, 2, 1, 49.99, 49.99),
+(12, 14, 7, 1, 45.99, 45.99),
+(13, 15, 3, 1, 44.99, 44.99),
+(14, 16, 3, 1, 44.99, 44.99),
+(15, 17, 3, 1, 44.99, 44.99),
+(16, 17, 6, 1, 59.99, 59.99),
+(17, 18, 2, 1, 49.99, 49.99);
 
 -- --------------------------------------------------------
 
@@ -435,7 +472,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `nick`, `firstName`, `lastName`, `email`, `password`) VALUES
 (1, 'Vadim0143', 'Piotr', 'Hadała', 'example@op.pl', '$2y$10$NbwUbxbFY51iQK3UZC52W.CN.EQVyT18Fj9MZfuRIlH.YVTlWIhbe'),
 (2, 'Piotrek', 'Piotrek', 'Jakis', 'example@oop.pl', '$2y$10$1ZO.u.Cf/YsPaOs/1X09SO0PakylvP5wNktwJ4maBWmbrM6abLqNO'),
-(4, 'admin', 'admin', 'admin', 'admin@bookstore.com', '$2y$10$AXSSDcwr9UbusMpYvaOCUuakYMaEe2d2UwxLs9ZuatOuYYWOepFl.');
+(4, 'admin', 'admin', 'admin', 'admin@bookstore.com', '$2y$10$AXSSDcwr9UbusMpYvaOCUuakYMaEe2d2UwxLs9ZuatOuYYWOepFl.'),
+(5, 'Hamu', 'Paweł', 'Hamuda', 'Paw@gmail.com', '$2y$10$R723iwyumdBGQIgMJRZ2O.f0Z0.2EroJ8w907Xwk6S4s0tJ.S1iCK');
 
 --
 -- Indeksy dla zrzutów tabel
@@ -445,7 +483,8 @@ INSERT INTO `users` (`id`, `nick`, `firstName`, `lastName`, `email`, `password`)
 -- Indeksy dla tabeli `adresses`
 --
 ALTER TABLE `adresses`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`) USING BTREE;
 
 --
 -- Indeksy dla tabeli `books`
@@ -468,6 +507,12 @@ ALTER TABLE `order_items`
   ADD KEY `book_id` (`book_id`);
 
 --
+-- Indeksy dla tabeli `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT dla zrzuconych tabel
 --
 
@@ -475,19 +520,25 @@ ALTER TABLE `order_items`
 -- AUTO_INCREMENT dla tabeli `books`
 --
 ALTER TABLE `books`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- AUTO_INCREMENT dla tabeli `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT dla tabeli `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT dla tabeli `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Ograniczenia dla zrzutów tabel
