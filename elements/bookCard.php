@@ -38,7 +38,7 @@ if (!isset($_SESSION['cart'])) {
                         </table>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row description">
                     <div class="col s12 m12 l12">
                         <h3 class="grey-text">Opis książki:</h3>
                         <p class="flow-text grey-text" id="description">
@@ -49,24 +49,24 @@ if (!isset($_SESSION['cart'])) {
                      Dodaj do koszyka
                 </button>
             </div>
-
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="../database/dataBaseManager.js"></script>
-    <script src="../js/DisplayBookDetails.js"></script>
-    <script>
-        function addToCart(product_id, product_name, product_price) {
-            // Wywołaj funkcję PHP poprzez AJAX, aby dodać produkt do koszyka
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    // Produkt został dodany do koszyka, możesz wykonać odpowiednie działania w interfejsie użytkownika
-                }
-            };
-            xhr.open("POST", "add_to_cart.php", true);
-            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xhr.send("product_id=" + product_id + "&product_name=" + product_name + "&product_price=" + product_price);
-            location.reload();
-        }
-    </script>
+        <?php include 'footer.html';?>
+        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="../database/dataBaseManager.js"></script>
+        <script src="../js/DisplayBookDetails.js"></script>
+        <script>
+            function addToCart(product_id, product_name, product_price) {
+                // Wywołaj funkcję PHP poprzez AJAX, aby dodać produkt do koszyka
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        // Produkt został dodany do koszyka, możesz wykonać odpowiednie działania w interfejsie użytkownika
+                    }
+                };
+                xhr.open("POST", "add_to_cart.php", true);
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhr.send("product_id=" + product_id + "&product_name=" + product_name + "&product_price=" + product_price);
+                location.reload();
+            }
+        </script>
     </body>
 </html>

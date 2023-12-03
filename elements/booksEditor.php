@@ -48,7 +48,7 @@
         <?php include 'header.html';?>
         <div class="row" id="template-body">
                 <template id="car-template">
-                    <div class="col s12 m8 offset-m2 l4">
+                    <div class="col-md-2">
                         <div class="card">
                             <div class="card-image">
                                 <img src="../img/books/Kwazar.png" class="responsive-img" id="template-preview-image" alt="Książka">

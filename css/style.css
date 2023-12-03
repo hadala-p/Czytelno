@@ -249,17 +249,15 @@ section img
   transition: 1s;
   opacity: 0.8;
 }
-.recommended
-{
-  border: solid 5px rgb(243, 148, 6);
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+.recommended {
+    border: solid 5px rgb(145,150,96);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
-.recommended h1
-{
-  background-color: rgb(243, 148, 6);
-}
+    .recommended h1 {
+        background-color: rgb(145,150,96);
+    }
 .index_sale
 {
   border: solid 5px red;
@@ -327,6 +325,14 @@ figcaption
     transform: scale(1.1);
     transition: 1s;
     opacity: 0.8;
+}
+.card-image img{
+    width: 80%;
+}
+#reservation-button{
+    color: white;
+    background-color: saddlebrown;
+    padding: 10px;
 }
 /* ------------------------------------------------------------------>footer */
 footer {
@@ -500,11 +506,9 @@ span.psw
   padding: 10px;
   width: 80%;
 }
-.responsive-img{
-    width: 50%;
-}
-#bookinfo{
-    color: black;
+.usersbtn {
+    background-color: deepskyblue;
+    width: 80%;
 }
 /* ---------------------------------------> slider */
 .img-slider {
@@ -627,11 +631,8 @@ span.psw
     margin: auto;
     padding: 20px;
 }
-.buttonCard {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 50px;
+.button_card {
+    margin: auto;
 }
 buttonCard input[type=submit] {
     background-color: red;
@@ -661,4 +662,28 @@ buttonCard input[type=submit] {
 }
 .orderStatusContainer p{
     border-bottom: 2px black solid;
+}
+/*---------------------------------------> bookCard*/
+#bookinfo{
+    background-color: antiquewhite;
+}
+#title{
+    font-size: 40px;
+}
+#bookinfo table {
+    margin: auto;
+    margin-bottom: 0px;
+}
+.responsive-img {
+    width: auto;
+    height: auto;
+    margin: 30px;
+}
+
+#bookinfo {
+    color: black;
+}
+#addToCartButton{
+    background-color: sandybrown;
+    width: 300px;
 }

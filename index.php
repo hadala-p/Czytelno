@@ -38,7 +38,7 @@ if (!isset($_SESSION['cart'])) {
                                 <p class="white-text height1" id="template-description">Tutaj ma być opis samochodu</p>
                             </div>
                             <div class="card-action orange darken-3" style="text-align: center !important;">
-                                <a href="elements/bookCard.php" id="reservation-button">Szczegóły</a>
+                                <a href="elements/bookCard.php" id="reservation-button" style="text-decoration: none;">Szczegóły</a>
                             </div>
                         </div>
                     </div>    

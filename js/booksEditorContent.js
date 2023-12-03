@@ -15,7 +15,7 @@ async function drawContent() {
         let instanceDesc = instance.querySelector('#template-description');
         let reservationButton = instance.querySelector('#reservation-button');
 
-        instanceImage.src = response[i]['img'];
+        instanceImage.src = "../" + response[i]['img'];
         instanceDesc.innerText = response[i]['title'];
         reservationButton.href = "bookEditor.php?id=" + response[i]["id"];
 
