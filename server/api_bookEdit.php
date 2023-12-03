@@ -23,6 +23,7 @@ require_once"../elements/connect.php";
     }
     else
     {
+        $id = $_POST['ID']; 
         $category = $_POST['category']; 
         $title = $_POST['title']; 
         $author = $_POST['author']; 
@@ -33,9 +34,9 @@ require_once"../elements/connect.php";
         $description = $_POST['description']; 
         $img = $_POST['img']; 
 
-        if($connection->query("CALL AddBook('$category', '$title', '$author', '$publisher', '$year', '$pages', '$price', '$description', '$img')"))
+        if($connection->query("CALL EditBook('$id', '$category', '$title', '$author', '$publisher', '$year', '$pages', '$price', '$description', '$img')"))
         {
-            $_SESSION['blad']='<span style="color:green; font-size: 30px;"><br>Dodano książkę pomyślnie<br></span>';
+            $_SESSION['blad']='<span style="color:green; font-size: 30px;"><br>Edytowano książkę pomyślnie<br></span>';
             header('Location: ../elements/adminPanel.php');
         }
         else

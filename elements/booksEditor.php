@@ -63,7 +63,8 @@
                     </div>    
                 </template>
             </div>
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="../js/indexContent.js"></script>
+        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="../database/dataBaseManager.js"></script>
+        <script src="../js/booksEditorContent.js"></script>
     </body>
 </html>
