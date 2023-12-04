@@ -5,11 +5,10 @@
             <div class="bookStoreName"><a href="index.php">Czytelno</a></div>
         </div>
         <div class="logoo col-sm-8 col-md-8">
-            <div class="search-container">
-                <form action="/action_page.php">
-                    <input type="text" placeholder="Wpisz książkę.." name="search">
-                    <button type="submit">Submit</button>
-                </form>
+            <div class="cytat col-sm-9">
+                <div id="quote1">Czytaj...</div>
+                <div id="quote2">Odkrywaj...</div>
+                <div id="quote3">Analizuj...</div>
             </div>
         </div>
         <div class="col-sm-1 col-md-1 dropdown">

@@ -34,7 +34,7 @@ header .row
 .logoo
 {
   height: 80px;
-  border-top: solid 1px black;
+  border-top: solid 3px black;
   border-bottom: solid 3px black;
 }
 
@@ -96,6 +96,8 @@ header .row
 .dropdown {
     position: relative;
     display: inline-block;
+    border-top: solid 3px black;
+    border-bottom: solid 3px black;
 }
 
 .dropdown-content {

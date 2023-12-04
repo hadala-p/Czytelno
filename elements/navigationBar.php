@@ -18,7 +18,16 @@
         <li><a href="#">Nowości</a></li>
 
         <li><a href="elements/orderStatus.php">Zamówienie</a></li>
-        <li class="log-btn"><a href="elements/loggin.php">zaloguj się</a></li>
+        <?php
+            if(!isset($_SESSION['zalogowany']))
+            {
+                echo "<li class=\"log-btn\"><a href=\"elements/loggin.php\">zaloguj się</a></li>";
+            }
+            else
+            {
+                echo "<li class=\"log-btn\"><a href=\"elements/loggin.php\">".$_SESSION['nick']."</a></li>";
+            }
+        ?>
     </ul>
     <a href="javascript:void(0);" class="icon" onclick="myFunction()">
         <i class="icon-menu"></i>

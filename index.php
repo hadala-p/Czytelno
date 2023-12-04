@@ -16,7 +16,7 @@ if (!isset($_SESSION['cart'])) {
   <body>
     <?php 
         include 'elements/headerMainPage.php';
-        include 'elements/navigationBar.html';
+        include 'elements/navigationBar.php';
     ?>
 
     <div class="row">
