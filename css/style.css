@@ -512,6 +512,14 @@ span.psw
     background-color: deepskyblue;
     width: 80%;
 }
+.profileOrders {
+    margin: auto;
+    text-align: center;
+}
+.borderr{
+    border-bottom: 2px solid black;
+    margin-bottom: 30px;
+}
 /* ---------------------------------------> slider */
 .img-slider {
     position: relative;

@@ -15,7 +15,9 @@
     require_once"connect.php";
 	mysqli_report(0);
 
-    $connection = @new mysqli($host,$db_user,$db_password,$db_name);
+    $connection = new mysqli($host,$db_user,$db_password,$db_name);
+    $connection2 = new mysqli($host,$db_user,$db_password,$db_name);
+    $connection3 = new mysqli($host,$db_user,$db_password,$db_name);
 
     if($connection -> connect_errno)
     {
@@ -24,14 +26,27 @@
     else
     {
 		$login = $_SESSION['nick'];
-        $result = @$connection->query(sprintf("CALL getAddress('%s')",
+        $result = $connection->query(sprintf("CALL getAddress('%s')",
 		mysqli_real_escape_string($connection,$login)));
-
         if($result)
 	    {
             $row = $result->fetch_assoc();
         }
 
+        $result2 = $connection2->query("CALL getUserId('$login')");
+        if ($result2) {
+            $row2 = $result2->fetch_assoc();
+        }
+
+        $result3 = $connection3->query("CALL getUserOrders(".$row2['id'].")");
+        if ($result3) 
+        {
+            $row3 = array();
+            while ($row4 = $result3->fetch_assoc()) 
+            {
+                $row3[] = $row4;
+            }
+        }
     }
  ?>
 <!doctype html>
@@ -98,6 +113,24 @@
                 ?>
             </div>
             <a href="../server/api_logout.php"><button type="button" class="logoutbtn">Wyloguj się</button></a>
+        </div>
+        <div class="row profileOrders">
+            <h1>Zamówienia</h1>
+            <div class="col-md-2">Id</div>
+            <div class="col-md-3">Data</div>
+            <div class="col-md-3">Cena</div>
+            <div class="col-md-4">Status</div>
+            <div class="col-md-12 borderr"></div>
+            <?php
+            foreach ($row3 as $singleRow)
+            {
+                echo "<div class=\"col-md-2\"><p>".$singleRow['id']."</p></div>";
+                echo "<div class=\"col-md-3\"><p>".$singleRow['date']."</p></div>";
+                echo "<div class=\"col-md-3\"><p>".$singleRow['price']."</p></div>";
+                echo "<div class=\"col-md-4\"><p>".$singleRow['status']."</p></div>";
+                echo "<div class='col-md-12 borderr'>.</div>";
+            }
+            ?>
         </div>
         <script src="../js/funkcje.js"></script>
     </body>
