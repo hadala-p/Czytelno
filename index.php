@@ -26,7 +26,7 @@ if (!isset($_SESSION['cart'])) {
         <?php include 'elements/slider.html';?>
       </section>
       <section class="index_news">
-        <h1>Nowości</h1>
+        <h1>Książki</h1>
         <div class="row" id="template-body">
                 <template id="car-template">
                     <div class="col-md-4">
@@ -44,21 +44,6 @@ if (!isset($_SESSION['cart'])) {
                     </div>    
                 </template>
             </div>
-      </section>
-      <section class="top_view">
-        <h1>BestSellery</h1>
-        <div class="row">
-        </div>
-      </section>
-      <section class="index_sale">
-        <h1>Wyprzedaż</h1>
-        <div class="row">
-        </div>
-      </section>
-      <section class="index_for_kids">
-        <h1>Hity dla dzieci</h1>
-        <div class="row">
-        </div>
       </section>
     </main>
     </div>
