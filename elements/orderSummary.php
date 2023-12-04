@@ -17,10 +17,18 @@
         <link rel="stylesheet" href="../css/style.resposive.css">
     </head>
     <body>
+        
     <?php include 'header.html';
         include 'connect.php';
+        echo "<div class=\"row orderSummaryBooks\">
+            <div class=\"col-md-3\">Obrazek</div>
+            <div class=\"col-md-3\">Tytuł</div>
+            <div class=\"col-md-3\">Ilość</div>
+            <div class=\"col-md-3\">Cena</div>
+            </div>";
+        
         echo "<div class='row'>";
-            echo "<div class='col-md-9 orderSummaryBooks'>";
+            echo "<div class='col-md-12 orderSummaryBooks'>";
             $mysqli = new mysqli($host, $db_user, $db_password, $db_name);
             if ($mysqli->connect_error) 
             {
@@ -70,7 +78,7 @@
                 $stmt->bind_param("s", $nick);
                 $stmt->execute();
                 $result = $stmt->get_result();
-                echo "<div class='col-md-3'>";
+                echo "<div class='col-md-12'>";
                 echo "<p id='orderAddressHeader'>Adres wysyłki</p>";
                 if ($row = $result->fetch_assoc()) {
                     if($row['address'] != NULL){
@@ -90,7 +98,7 @@
         echo"</div>";
         echo "<p id='basketSum'>Suma:".$sum." zł</p>";
         echo "<form class='buton_card' action='../server/api_addOrder.php'>
-                <input type='submit' name='submit' value='Zamów'>
+                <button type='submit' name='submit' value='Zamów'>Zamów</button>
             </form>";
     ?>
     </body>

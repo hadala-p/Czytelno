@@ -636,16 +636,10 @@ span.psw
 }
 #goToSummary {
     width: 300px;
+    margin-left: 45%;
     background-color: rgb(98,179,176);
     text-align: center;
-    margin: auto;
     padding: 20px;
-}
-.button_card {
-    margin: auto;
-}
-buttonCard input[type=submit] {
-    background-color: red;
 }
 /*--------------------------------------> orderSummary */
 .orderSummaryBooks {
