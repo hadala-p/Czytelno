@@ -32,4 +32,10 @@ Website featuring online bookstores
 # Admin features
 
 # Database
-![Rules](images_readme/tests.png)
+# functions
+![browsing_the_site](images_readme/functions.png)
+# procedures
+![browsing_the_site](images_readme/procedures1.png)
+![browsing_the_site](images_readme/procedures2.png)
+# triggers
+![browsing_the_site](images_readme/triggers.png)
