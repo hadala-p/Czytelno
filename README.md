@@ -3,8 +3,8 @@ Website featuring online bookstores
 ![Rules](img/logo.png)
 ## Table of contents
 * [General info](#BookStore)
-* [User features](#user_features)
-* [Admin features](#admin_features)
+* [User features](#user-features)
+* [Admin features](#admin-features)
 * [Database](#database)
 # User features
 ## browsing the site
