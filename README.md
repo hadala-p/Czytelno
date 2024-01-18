@@ -29,6 +29,16 @@ Website featuring online bookstores
 ![browsing_the_site](images_readme/registration.png)
 ## login
 ![browsing_the_site](images_readme/login.png)
+## password change (after loggin)
+![browsing_the_site](images_readme/password_change.png)
+## address change (after loggin)
+![browsing_the_site](images_readme/address_change.png)
+## check all your orders (after loggin)
+![browsing_the_site](images_readme/check_all_your_orders.png)
+## logout
+![browsing_the_site](images_readme/logout.png)
+## Check order status
+![browsing_the_site](images_readme/order_status.png)
 # Admin features
 
 # Database
